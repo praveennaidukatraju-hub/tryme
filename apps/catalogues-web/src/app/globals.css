@@ -1,0 +1,487 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --icon-invert: none;
+  --icon-invert-light: invert(1);
+  --c-pink: #f55c7a;
+  --c-amber: #f6b553;
+  --c-dark: #141414;
+  --c-dark2: #282828;
+  --c-on-dark: #fefefe;
+  --c-white: #fefefe;
+  --c-bg: #fbfbfb;
+  --c-card: #ffffff;
+  --c-border: #eeeeee;
+  --c-border2: #e8e8e8;
+  --c-text: #141414;
+  --c-mid: #626262;
+  --c-light: #767676;
+  --c-lighter: #eeeeee;
+  --c-field: #f9f9f9;
+  --c-mint: #209e46;
+  --c-grad-subtle: linear-gradient(135deg, rgba(245, 92, 122, 0.15), rgba(246, 181, 83, 0.15));
+
+  /* Merchant portal tokens */
+  --c-merchant-bg: #f7f8fa;
+  --c-merchant-accent: #7c5cfc;
+  --c-merchant-accent-light: #f3f0ff;
+  --c-merchant-text-secondary: #374151;
+  --c-merchant-text-muted: #6b7280;
+  --c-merchant-text-placeholder: #9ca3af;
+  --c-merchant-border: #ebebeb;
+  --c-merchant-border-light: #e9ecef;
+  --c-merchant-hover: #f3f4f6;
+  --c-merchant-divider: #c4c4cc;
+  --c-merchant-success: #10b981;
+  --c-merchant-danger: #ef4444;
+  --c-merchant-warning: #f59e0b;
+  --c-merchant-code-bg: #f8f9fa;
+  --c-merchant-input-border: #e5e7eb;
+  --c-merchant-toggle-off: #e5e7eb;
+  --c-merchant-status-green: #00a860;
+  --c-merchant-status-red: #d0244a;
+  --c-merchant-status-blue: #6464f0;
+  --c-merchant-scrollbar: #e0e0e0;
+  --c-merchant-success-tint: rgba(16, 185, 129, 0.08);
+  --c-merchant-danger-tint: rgba(239, 68, 68, 0.08);
+  --c-merchant-accent-tint: rgba(124, 92, 252, 0.08);
+  --c-merchant-warning-tint: rgba(245, 158, 11, 0.08);
+  --c-merchant-muted-tint: rgba(107, 114, 128, 0.08);
+  --c-merchant-blue-tint: rgba(100, 100, 240, 0.08);
+  --c-pink-tint: rgba(245, 92, 122, 0.12);
+  --c-amber-tint: rgba(246, 181, 83, 0.12);
+
+  /* Try-On page specific tokens */
+  --tryon-garment-dashed: #c4b5fd;
+  --tryon-person-dashed: #fbcfe8;
+  --tryon-step-bg-1: #ede9fe;
+  --tryon-step-bg-2: #fce7f3;
+  --tryon-step-bg-3: #ffedd5;
+  --tryon-step-bg-4: #d1fae5;
+  --tryon-garment-icon-bg: #f5f3ff;
+  --tryon-badge-icon-bg: #f5f3ff;
+  --tryon-tips-bg: linear-gradient(90deg, #fdf4ff 0%, #f5f3ff 100%);
+}
+
+html.dark {
+  color-scheme: dark;
+  --icon-invert: invert(1);
+  --icon-invert-light: none;
+  --c-bg: #111111;
+  --c-card: #1c1c1c;
+  --c-white: #1c1c1c;
+  --c-surface-text: #f0f0f0;
+  --c-border: #2a2a2a;
+  --c-border2: #313131;
+  --c-text: #f0f0f0;
+  --c-mid: #a0a0a0;
+  --c-light: #6a6a6a;
+  --c-lighter: #2a2a2a;
+  --c-field: #242424;
+  --c-mint: #2ecc57;
+  --c-grad-subtle: linear-gradient(135deg, rgba(245, 92, 122, 0.2), rgba(246, 181, 83, 0.2));
+
+  /* Merchant portal dark tokens */
+  --c-merchant-bg: #0f0f11;
+  --c-merchant-accent: #7c5cfc;
+  --c-merchant-accent-light: #1f1b33;
+  --c-merchant-text-secondary: #a1a1aa;
+  --c-merchant-text-muted: #71717a;
+  --c-merchant-text-placeholder: #52525b;
+  --c-merchant-border: #27272a;
+  --c-merchant-border-light: #1f1f23;
+  --c-merchant-hover: #222228;
+  --c-merchant-divider: #3f3f46;
+  --c-merchant-success: #2ecc71;
+  --c-merchant-danger: #ff6b6b;
+  --c-merchant-warning: #f0a83e;
+  --c-merchant-code-bg: #1a1a1d;
+  --c-merchant-input-border: #27272a;
+  --c-merchant-toggle-off: #3f3f46;
+  --c-merchant-status-green: #2ecc71;
+  --c-merchant-status-red: #ff6b6b;
+  --c-merchant-status-blue: #8b8bff;
+  --c-merchant-scrollbar: #3f3f46;
+  --c-merchant-success-tint: rgba(46, 204, 113, 0.12);
+  --c-merchant-danger-tint: rgba(255, 107, 107, 0.12);
+  --c-merchant-accent-tint: rgba(124, 92, 252, 0.12);
+  --c-merchant-warning-tint: rgba(240, 168, 62, 0.12);
+  --c-merchant-muted-tint: rgba(161, 161, 170, 0.08);
+  --c-merchant-blue-tint: rgba(139, 139, 255, 0.12);
+  --c-pink-tint: rgba(245, 92, 122, 0.18);
+  --c-amber-tint: rgba(246, 181, 83, 0.18);
+
+  /* Try-On page dark overrides — muted so they're not glaring */
+  --tryon-garment-dashed: rgba(196, 181, 253, 0.28);
+  --tryon-person-dashed: rgba(251, 207, 232, 0.22);
+  --tryon-step-bg-1: rgba(124, 58, 237, 0.18);
+  --tryon-step-bg-2: rgba(236, 72, 153, 0.18);
+  --tryon-step-bg-3: rgba(249, 115, 22, 0.18);
+  --tryon-step-bg-4: rgba(16, 185, 129, 0.18);
+  --tryon-garment-icon-bg: rgba(129, 140, 248, 0.14);
+  --tryon-badge-icon-bg: rgba(99, 102, 241, 0.14);
+  --tryon-tips-bg: rgba(129, 140, 248, 0.08);
+}
+
+html {
+  color-scheme: light;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: var(--font-poppins), "Poppins", sans-serif;
+  background: var(--c-bg);
+  color: var(--c-text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--c-merchant-scrollbar);
+  border-radius: 3px;
+}
+
+@keyframes av-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.av-spin {
+  animation: av-spin 0.8s linear infinite;
+}
+
+@keyframes av-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Phone preview — hides native scrollbar so the device illusion holds */
+.preview-phone-scroll {
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+}
+.preview-phone-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes av-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+.av-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--c-lighter, #f2f2f2) 0%,
+    var(--c-border, #e6e6e6) 50%,
+    var(--c-lighter, #f2f2f2) 100%
+  );
+  background-size: 200% 100%;
+  animation: av-shimmer 1.4s linear infinite;
+}
+
+/* Product card grid — hover & focus via CSS (replaces imperative querySelector) */
+.prod-card {
+  transition: box-shadow 0.15s ease;
+}
+.prod-card:hover {
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1);
+}
+.prod-card-img {
+  transition: transform 0.2s ease;
+}
+.prod-card:hover .prod-card-img {
+  transform: scale(1.03);
+}
+a.prod-card-wrapper:focus-visible,
+button.prod-card-wrapper:focus-visible {
+  outline: 2px solid var(--c-pink);
+  outline-offset: 2px;
+  border-radius: 16px;
+}
+
+/* Universal focus ring for custom interactive elements */
+.focus-ring {
+  outline: none;
+}
+.focus-ring:focus-visible {
+  outline: 2px solid var(--c-pink);
+  outline-offset: 2px;
+}
+
+/* Auth layout — drop the image panel on narrow viewports so the form can breathe */
+@media (max-width: 860px) {
+  .auth-image-panel {
+    display: none;
+  }
+  .auth-card {
+    height: auto;
+    max-width: 480px;
+  }
+}
+
+/* Button Hover States (Audit 4.1) */
+.btn-hover-opacity {
+  transition: opacity 0.15s ease;
+  opacity: 1;
+  cursor: pointer;
+}
+.btn-hover-opacity:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.btn-hover-opacity:hover:not(:disabled) {
+  opacity: 0.85;
+}
+
+/* Hover — standard surface swap */
+.hover-surface {
+  transition: background 0.12s;
+}
+.hover-surface:hover {
+  background: var(--c-merchant-hover);
+}
+
+/* Hover — page-bg tint (menu items, settings row) */
+.hover-bg {
+  transition: background 0.12s;
+}
+.hover-bg:hover {
+  background: var(--c-bg);
+}
+
+/* Hover — date range Clear button (bg + color shift) */
+.date-clear-btn:hover {
+  background: var(--c-merchant-hover);
+  color: var(--c-text);
+}
+
+/* Hover — garment card child zoom */
+.garment-card:hover [data-zoom] {
+  transform: scale(1.05);
+}
+
+/* Hover — google btn */
+.google-btn:hover {
+  /* biome-ignore lint/complexity/noImportantStyles: overrides inline style */
+  background: var(--c-field) !important;
+}
+
+/* Hover — sidebar */
+.hover-surface-sidebar:hover {
+  /* biome-ignore lint/complexity/noImportantStyles: overrides inline style */
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Hover — danger tint */
+.hover-danger-tint {
+  transition: background 0.12s;
+}
+.hover-danger-tint:hover {
+  /* biome-ignore lint/complexity/noImportantStyles: overrides inline style */
+  background: var(--c-pink-tint) !important;
+}
+
+/* Hover — pricing page */
+.hover-brightness {
+  transition: filter 0.12s;
+}
+.hover-brightness:hover {
+  filter: brightness(0.9);
+}
+
+.upgrade-plan-btn {
+  transition:
+    opacity 0.15s,
+    filter 0.15s,
+    background 0.15s;
+}
+.upgrade-plan-btn:not(.highlighted):hover:not(:disabled) {
+  /* biome-ignore lint/complexity/noImportantStyles: overrides inline style */
+  background: var(--c-dark2) !important;
+}
+.upgrade-plan-btn.highlighted:hover:not(:disabled) {
+  filter: brightness(0.9);
+}
+
+html.dark .dark-logo-bg {
+  background: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* Studio generation loading UX animations */
+@keyframes studio-scan-line {
+  0% {
+    top: 0%;
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.85;
+  }
+  85% {
+    opacity: 0.85;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+@keyframes studio-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes studio-pulse {
+  0%,
+  100% {
+    opacity: 0.65;
+  }
+  50% {
+    opacity: 0.88;
+  }
+}
+
+@keyframes studio-deblur {
+  0% {
+    filter: blur(6px);
+  }
+  50% {
+    filter: blur(2.5px);
+  }
+  100% {
+    filter: blur(6px);
+  }
+}
+
+@keyframes studio-completion-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.scan-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, rgba(117, 74, 176, 0.9) 50%, transparent 100%);
+  box-shadow:
+    0 0 8px rgba(117, 74, 176, 0.7),
+    0 0 16px rgba(117, 74, 176, 0.35);
+  animation: studio-scan-line 2.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.08) 50%,
+    transparent 100%
+  );
+  animation: studio-shimmer 2.2s infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.processing-pulse {
+  animation: studio-pulse 3s ease-in-out infinite;
+}
+
+.garment-deblur {
+  animation: studio-deblur 4s ease-in-out infinite;
+}
+
+.completion-pop {
+  animation: studio-completion-pop 380ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Sidebar drawer & Studio loading — respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .sidebar-drawer-panel {
+    /* biome-ignore lint/complexity/noImportantStyles: overrides inline style */
+    transition: none !important;
+  }
+  .scan-line,
+  .shimmer,
+  .processing-pulse,
+  .garment-deblur,
+  .completion-pop {
+    /* biome-ignore lint/complexity/noImportantStyles: overrides animation for accessibility */
+    animation: none !important;
+    /* biome-ignore lint/complexity/noImportantStyles: overrides transition for accessibility */
+    transition: none !important;
+  }
+}
+
+/* Responsive button text helpers for TopBar and mobile/tablet headers.
+   1024px mirrors src/lib/breakpoints.ts's BREAKPOINTS.lg — this is a plain
+   CSS file (no build-time access to that constant), keep them in sync. */
+@media (max-width: 1023px) {
+  .hide-mobile-tablet {
+    display: none !important;
+  }
+}
+@media (min-width: 1024px) {
+  .show-mobile-tablet-only {
+    display: none !important;
+  }
+}
