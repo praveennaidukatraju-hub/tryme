@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="shopify-api-key" content="%VITE_SHOPIFY_API_KEY%" />
+<script src="https://cdn.shopify.com/shopifycloud/app-bridge.js"></script>
+<!--
+  No install/OAuth bootstrap script here on purpose. Under Shopify managed
+  installation (see shopify.app.toml) Shopify installs the app and grants
+  scopes without calling us, then opens this page with a session token. The
+  first authenticated request exchanges that token for an access token and
+  provisions the store server-side, so the app never initiates OAuth itself.
+  An earlier version redirected to /v1/shopify/auth from here, which looped
+  through Shopify's install entry and got shops throttled with 429.
+-->
+<title>TryMe Try-On</title>
+</head>
+<body>
+<div id="root"></div>
+<script type="module" src="/src/main.tsx"></script>
+</body>
+</html>
