@@ -1,0 +1,40 @@
+{
+  "name": "@tryme/dispatcher",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch --env-file=../../.env --no-warnings src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node --env-file=../../.env dist/index.js",
+    "test": "vitest run --reporter=verbose",
+    "test:unit": "vitest run --reporter=verbose",
+    "test:integration": "vitest run --config vitest.integration.config.ts",
+    "lint": "biome check src/"
+  },
+  "dependencies": {
+    "@tryme/db": "workspace:*",
+    "@tryme/logger": "workspace:*",
+    "@tryme/observability": "workspace:*",
+    "@tryme/storage": "workspace:*",
+    "@tryme/types": "workspace:*",
+    "@aws-sdk/client-s3": "^3.600.0",
+    "@sentry/node": "^10.57.0",
+    "sharp": "^0.33.5",
+    "drizzle-orm": "^0.36.0",
+    "ioredis": "^5.3.2",
+    "undici": "^8.3.0",
+    "ws": "^8.17.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/ws": "^8.5.10",
+    "postgres": "^3.4.4",
+    "dotenv": "^17.4.2",
+    "tsx": "^4.11.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
+}
