@@ -1,0 +1,56 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+#
+# Staging-only app config — separate Partner Dashboard app record from both the
+# production "TryMe" app (shopify.app.toml) and the local-dev "TryMe Dev"
+# app (shopify.app.dev.toml). Points at staging-admin.tryme.com, which is
+# where /shopify-admin, /admin/, and /v1/ actually live per the vhost split
+# documented in docs/staging-runbook.md — staging-app.tryme.com serves only
+# the catalogues-web app and has no /shopify-admin route, unlike prod where a
+# single domain does both jobs. Deploy with `shopify app deploy --config
+# staging` from this directory.
+
+client_id = "b8098c4cd5deecfbe6b637090b650036"
+name = "TryMe Staging"
+application_url = "https://staging-admin.tryme.com/shopify-admin/embedded"
+embedded = true
+
+[access_scopes]
+# Mirrors shopify.app.toml — see that file for why use_legacy_install_flow is
+# deliberately absent and how the managed-installation token exchange works.
+scopes = "read_products,write_products"
+optional_scopes = [ ]
+
+[auth]
+redirect_urls = [
+  "https://staging-admin.tryme.com/v1/shopify/auth/callback"
+]
+
+# Mirrors shopify.app.toml — see that file for why.
+[app_proxy]
+url = "https://staging-admin.tryme.com/v1/shopify/proxy"
+subpath = "widget"
+prefix = "apps"
+
+[webhooks]
+api_version = "2026-07"
+
+  [webhooks.privacy_compliance]
+  customer_deletion_url = "https://staging-admin.tryme.com/v1/shopify/webhooks/customers_redact"
+  customer_data_request_url = "https://staging-admin.tryme.com/v1/shopify/webhooks/customers_data_request"
+  shop_deletion_url = "https://staging-admin.tryme.com/v1/shopify/webhooks/shop_redact"
+
+  # Mirrors shopify.app.toml — see that file for why this is declared here
+  # rather than relying solely on the per-shop registration call.
+  [[webhooks.subscriptions]]
+  topics = [ "app_purchases_one_time/update" ]
+  uri = "https://staging-admin.tryme.com/v1/shopify/webhooks/app_purchases_one_time_update"
+
+  # Mirrors shopify.app.toml — see that file for why this is declared here
+  # rather than relying solely on the per-shop registration call.
+  [[webhooks.subscriptions]]
+  topics = [ "app_subscriptions/update" ]
+  uri = "https://staging-admin.tryme.com/v1/shopify/webhooks/app_subscriptions_update"
+
+  [[webhooks.subscriptions]]
+  topics = [ "app_subscriptions/approaching_capped_amount" ]
+  uri = "https://staging-admin.tryme.com/v1/shopify/webhooks/app_subscriptions_approaching_capped_amount"

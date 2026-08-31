@@ -1,0 +1,1208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/screen_bg"
+    tools:context=".fragment.UploadVastraFragment">
+
+    <!-- Top Header -->
+    <ImageView
+        android:id="@+id/title"
+        android:layout_width="@dimen/_120sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:paddingStart="@dimen/_4sdp"
+        android:paddingVertical="@dimen/_7sdp"
+        android:scaleType="fitStart"
+        android:src="@drawable/av_new_logo_horizontal" />
+
+    <ImageView
+        android:id="@+id/img_profile"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_alignTop="@id/title"
+        android:layout_alignBottom="@id/title"
+        android:layout_alignParentEnd="true"
+        android:padding="@dimen/_8sdp"
+        android:src="@drawable/profile_icon" />
+
+    <!-- Step 1: Upload Container (Houses Sub-Steps) -->
+    <LinearLayout
+        android:id="@+id/ll_upload_product"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/title"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/_10sdp"
+        android:paddingTop="@dimen/_2sdp"
+        android:paddingBottom="@dimen/_10sdp">
+
+        <!-- Card Container -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_upload_card"
+            android:elevation="@dimen/_1sdp"
+            android:padding="@dimen/_10sdp">
+
+            <!-- SUB-STEP 0: Mode Selection Screen -->
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/ll_step_0_mode_selection"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Guideline Box with Increased Height -->
+                    <LinearLayout
+                        android:id="@+id/ll_sample_photo"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_145sdp"
+                        android:background="@drawable/bg_sample_instruction_card"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_8sdp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:fontFamily="@font/popins_medium"
+                            android:text="✦  Place saree like this  ✦"
+                            android:textColor="#3B3B6D"
+                            android:textSize="@dimen/_12ssp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:id="@+id/ll_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginEnd="@dimen/_8sdp"
+                                android:gravity="center_vertical"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/popins_medium"
+                                    android:gravity="center_vertical"
+                                    android:text="Top - - -"
+                                    android:textColor="#4A4A68"
+                                    android:textSize="@dimen/_11ssp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/popins_medium"
+                                    android:gravity="center_vertical"
+                                    android:text="Bottom - - -"
+                                    android:textColor="#4A4A68"
+                                    android:textSize="@dimen/_11ssp" />
+                            </LinearLayout>
+
+                            <com.google.android.material.card.MaterialCardView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                app:cardCornerRadius="@dimen/_10sdp"
+                                app:cardElevation="0dp"
+                                app:strokeWidth="0dp">
+
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:scaleType="fitCenter"
+                                    android:src="@drawable/img_saree_sample" />
+                            </com.google.android.material.card.MaterialCardView>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Divider -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="@dimen/_8sdp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_weight="1"
+                            android:background="#DCE3F2" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/_8sdp"
+                            android:fontFamily="@font/popins_medium"
+                            android:text="✦  Select Upload Mode  ✦"
+                            android:textColor="#5C5C7B"
+                            android:textSize="@dimen/_11ssp" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_weight="1"
+                            android:background="#DCE3F2" />
+                    </LinearLayout>
+
+                    <!-- Single Saree Upload Option Card (Light Purple background #F3EFFC) -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_mode_single"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        app:cardBackgroundColor="#F3EFFC"
+                        app:cardCornerRadius="@dimen/_12sdp"
+                        app:cardElevation="@dimen/_2sdp"
+                        app:strokeColor="#D4C9FB"
+                        app:strokeWidth="1.5dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/_10sdp">
+
+                            <ImageView
+                                android:layout_width="@dimen/_36sdp"
+                                android:layout_height="@dimen/_36sdp"
+                                android:background="@drawable/bg_circle_purple"
+                                android:padding="@dimen/_8sdp"
+                                android:src="@drawable/ic_single_upload"
+                                app:tint="@color/white" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_10sdp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/popins_medium"
+                                    android:text="Single Saree Upload"
+                                    android:textColor="#1E1B4B"
+                                    android:textSize="@dimen/_12ssp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/_2sdp"
+                                    android:fontFamily="@font/popins_medium"
+                                    android:text="Upload one image containing Body + Pallu together"
+                                    android:textColor="#6B7280"
+                                    android:textSize="@dimen/_9ssp" />
+                            </LinearLayout>
+
+                            <ImageView
+                                android:layout_width="@dimen/_45sdp"
+                                android:layout_height="@dimen/_60sdp"
+                                android:layout_marginStart="@dimen/_6sdp"
+                                android:scaleType="fitCenter"
+                                android:src="@drawable/img_saree_sample" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Separate Body & Pallu Option Card (Light Pink background #FFF0F5) -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_mode_multiple"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        app:cardBackgroundColor="#FFF0F5"
+                        app:cardCornerRadius="@dimen/_12sdp"
+                        app:cardElevation="@dimen/_2sdp"
+                        app:strokeColor="#FBCFE8"
+                        app:strokeWidth="1.5dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/_10sdp">
+
+                            <ImageView
+                                android:layout_width="@dimen/_36sdp"
+                                android:layout_height="@dimen/_36sdp"
+                                android:background="@drawable/bg_circle_pink"
+                                android:padding="@dimen/_8sdp"
+                                android:src="@drawable/ic_multiple_files"
+                                app:tint="@color/white" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_10sdp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/popins_medium"
+                                    android:text="Separate Body &amp; Pallu"
+                                    android:textColor="#1E1B4B"
+                                    android:textSize="@dimen/_12ssp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/_2sdp"
+                                    android:fontFamily="@font/popins_medium"
+                                    android:text="Upload Body and Pallu as two different images"
+                                    android:textColor="#6B7280"
+                                    android:textSize="@dimen/_9ssp" />
+                            </LinearLayout>
+
+                            <ImageView
+                                android:layout_width="@dimen/_45sdp"
+                                android:layout_height="@dimen/_60sdp"
+                                android:layout_marginStart="@dimen/_6sdp"
+                                android:scaleType="fitCenter"
+                                android:src="@drawable/img_saree_sample" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Saree Type Dropdown -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/spinnerLayoutPalluType"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_4sdp"
+                        android:visibility="gone"
+                        app:endIconMinSize="@dimen/_28sdp"
+                        app:endIconMode="dropdown_menu"
+                        app:endIconScaleType="centerCrop"
+                        app:endIconTint="@color/black"
+                        app:hintEnabled="false"
+                        app:startIconDrawable="@drawable/ic_saree_hanger"
+                        app:startIconTint="#5C6BC0">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/materialSpinnerPalluType"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_saree_type_dropdown"
+                            android:cursorVisible="false"
+                            android:ellipsize="end"
+                            android:focusable="false"
+                            android:fontFamily="@font/popins_medium"
+                            android:gravity="start|center_vertical"
+                            android:hint="Select SareeType"
+                            android:includeFontPadding="false"
+                            android:inputType="none"
+                            android:paddingHorizontal="@dimen/_10sdp"
+                            android:paddingVertical="@dimen/_8sdp"
+                            android:singleLine="true"
+                            android:textAlignment="textStart"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/dark_gray"
+                            android:textSize="@dimen/_11ssp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+            <!-- SUB-STEP 1A: Single Upload Page -->
+            <LinearLayout
+                android:id="@+id/ll_step_1a_single_upload"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <!-- Header Bar -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/_8sdp">
+
+                    <ImageView
+                        android:id="@+id/btn_back_single"
+                        android:layout_width="@dimen/_24sdp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:padding="@dimen/_2sdp"
+                        android:src="@drawable/ic_arrow_back_purple" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_12sdp"
+                        android:fontFamily="@font/popins_medium"
+                        android:text="Single Saree Upload"
+                        android:textColor="#6C5CE7"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/popins_medium"
+                    android:text="Upload Complete Saree"
+                    android:textColor="#1E1B4B"
+                    android:textSize="@dimen/_14ssp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:fontFamily="@font/popins_medium"
+                    android:text="Upload one image containing Body + Pallu together"
+                    android:textColor="#6B7280"
+                    android:textSize="@dimen/_9ssp" />
+
+                <!-- Upload Area Box -->
+                <FrameLayout
+                    android:id="@+id/card_upload_single"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginVertical="@dimen/_12sdp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_upload_dashed"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="@dimen/_10sdp">
+
+                    <ImageView
+                        android:id="@+id/img_preview_single"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitCenter"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:id="@+id/btn_change_single_overlay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|center_horizontal"
+                        android:layout_margin="@dimen/_8sdp"
+                        android:background="@drawable/bg_dark_glass_pill"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="@dimen/_10sdp"
+                        android:paddingVertical="@dimen/_5sdp"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:layout_width="@dimen/_14sdp"
+                            android:layout_height="@dimen/_14sdp"
+                            android:src="@drawable/ic_single_upload"
+                            app:tint="@color/white" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_4sdp"
+                            android:fontFamily="@font/popins_medium"
+                            android:text="Tap to change or crop photo"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_9ssp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_prompt_single"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/_42sdp"
+                            android:layout_height="@dimen/_42sdp"
+                            android:background="@drawable/bg_circle_purple"
+                            android:elevation="@dimen/_2sdp"
+                            android:padding="@dimen/_10sdp"
+                            android:src="@drawable/ic_upload"
+                            app:tint="@color/white" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:fontFamily="@font/popins_medium"
+                            android:gravity="center"
+                            android:text="Tap to upload or drag &amp; drop\nJPG, PNG (Max 10MB)"
+                            android:textColor="#4B5563"
+                            android:textSize="@dimen/_10ssp" />
+                    </LinearLayout>
+                </FrameLayout>
+
+                <!-- Bottom Navigation Buttons -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_back_single_bottom"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_button_outline"
+                        android:fontFamily="@font/popins_medium"
+                        android:paddingVertical="@dimen/_8sdp"
+                        android:text="Back"
+                        android:textAllCaps="false"
+                        android:textColor="#6C5CE7"
+                        android:textSize="@dimen/_11ssp"
+                        app:backgroundTint="@null"
+                        app:strokeColor="#6C5CE7"
+                        app:strokeWidth="1.5dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_continue_single"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_nav_gradient"
+                        android:fontFamily="@font/popins_medium"
+                        android:paddingVertical="@dimen/_8sdp"
+                        android:text="Continue"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_11ssp"
+                        app:backgroundTint="@null"
+                        app:cornerRadius="@dimen/_10sdp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- SUB-STEP 1B: Separate / Multiple Upload Page -->
+            <LinearLayout
+                android:id="@+id/ll_step_1b_multiple_upload"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <!-- Header Bar -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/_6sdp">
+
+                    <ImageView
+                        android:id="@+id/btn_back_multiple"
+                        android:layout_width="@dimen/_24sdp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:padding="@dimen/_2sdp"
+                        android:src="@drawable/ic_arrow_back_purple" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_12sdp"
+                        android:fontFamily="@font/popins_medium"
+                        android:text="Separate Upload"
+                        android:textColor="#6C5CE7"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/popins_medium"
+                    android:text="Upload Saree Components"
+                    android:textColor="#1E1B4B"
+                    android:textSize="@dimen/_13ssp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/popins_medium"
+                    android:text="Upload Body and Pallu as two different images"
+                    android:textColor="#6B7280"
+                    android:textSize="@dimen/_9ssp" />
+
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginVertical="@dimen/_6sdp"
+                    android:layout_weight="1"
+                    android:fillViewport="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <!-- Section 1: Body Upload Card -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/popins_medium"
+                            android:text="❶  Body (Fabric with border)"
+                            android:textColor="#1E1B4B"
+                            android:textSize="@dimen/_10ssp"
+                            android:textStyle="bold" />
+
+                        <FrameLayout
+                            android:id="@+id/card_upload_body"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_110sdp"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:layout_marginBottom="@dimen/_8sdp"
+                            android:background="@drawable/bg_upload_dashed_green"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:padding="@dimen/_8sdp">
+
+                            <ImageView
+                                android:id="@+id/img_preview_body"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="fitCenter"
+                                android:visibility="gone" />
+
+                            <LinearLayout
+                                android:id="@+id/btn_change_body_overlay"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom|end"
+                                android:layout_margin="@dimen/_6sdp"
+                                android:background="@drawable/bg_dark_glass_pill"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:paddingHorizontal="@dimen/_8sdp"
+                                android:paddingVertical="@dimen/_4sdp"
+                                android:visibility="gone">
+
+                                <ImageView
+                                    android:layout_width="@dimen/_12sdp"
+                                    android:layout_height="@dimen/_12sdp"
+                                    android:src="@drawable/ic_single_upload"
+                                    app:tint="@color/white" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/_3sdp"
+                                    android:fontFamily="@font/popins_medium"
+                                    android:text="Tap to change / crop"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/_8ssp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/ll_prompt_body"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="@dimen/_32sdp"
+                                    android:layout_height="@dimen/_32sdp"
+                                    android:background="@drawable/bg_circle_icon_white"
+                                    android:padding="@dimen/_6sdp"
+                                    android:src="@drawable/ic_upload"
+                                    app:tint="#6C5CE7" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/_4sdp"
+                                    android:fontFamily="@font/popins_medium"
+                                    android:gravity="center"
+                                    android:text="Upload Body\nJPG, PNG (Max 10MB)"
+                                    android:textColor="#374151"
+                                    android:textSize="@dimen/_9ssp" />
+                            </LinearLayout>
+                        </FrameLayout>
+
+                        <!-- Section 2: Pallu Upload Card -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/popins_medium"
+                            android:text="❷  Pallu (Pallu section)"
+                            android:textColor="#1E1B4B"
+                            android:textSize="@dimen/_10ssp"
+                            android:textStyle="bold" />
+
+                        <FrameLayout
+                            android:id="@+id/card_upload_pallu"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_110sdp"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:background="@drawable/bg_upload_dashed"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:padding="@dimen/_8sdp">
+
+                            <ImageView
+                                android:id="@+id/img_preview_pallu"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="fitCenter"
+                                android:visibility="gone" />
+
+                            <LinearLayout
+                                android:id="@+id/btn_change_pallu_overlay"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom|end"
+                                android:layout_margin="@dimen/_6sdp"
+                                android:background="@drawable/bg_dark_glass_pill"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:paddingHorizontal="@dimen/_8sdp"
+                                android:paddingVertical="@dimen/_4sdp"
+                                android:visibility="gone">
+
+                                <ImageView
+                                    android:layout_width="@dimen/_12sdp"
+                                    android:layout_height="@dimen/_12sdp"
+                                    android:src="@drawable/ic_single_upload"
+                                    app:tint="@color/white" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/_3sdp"
+                                    android:fontFamily="@font/popins_medium"
+                                    android:text="Tap to change / crop"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/_8ssp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/ll_prompt_pallu"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="@dimen/_32sdp"
+                                    android:layout_height="@dimen/_32sdp"
+                                    android:background="@drawable/bg_circle_icon_white"
+                                    android:padding="@dimen/_6sdp"
+                                    android:src="@drawable/ic_upload"
+                                    app:tint="#6C5CE7" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/_4sdp"
+                                    android:fontFamily="@font/popins_medium"
+                                    android:gravity="center"
+                                    android:text="Upload Pallu\nJPG, PNG (Max 10MB)"
+                                    android:textColor="#374151"
+                                    android:textSize="@dimen/_9ssp" />
+                            </LinearLayout>
+                        </FrameLayout>
+
+                    </LinearLayout>
+                </androidx.core.widget.NestedScrollView>
+
+                <!-- Bottom Navigation Buttons -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_back_multiple_bottom"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_button_outline"
+                        android:fontFamily="@font/popins_medium"
+                        android:paddingVertical="@dimen/_8sdp"
+                        android:text="Back"
+                        android:textAllCaps="false"
+                        android:textColor="#6C5CE7"
+                        android:textSize="@dimen/_11ssp"
+                        app:backgroundTint="@null"
+                        app:strokeColor="#6C5CE7"
+                        app:strokeWidth="1.5dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_continue_multiple"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_nav_gradient"
+                        android:fontFamily="@font/popins_medium"
+                        android:paddingVertical="@dimen/_8sdp"
+                        android:text="Continue"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_11ssp"
+                        app:backgroundTint="@null"
+                        app:cornerRadius="@dimen/_10sdp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- SUB-STEP 2: Choose Draping Style Screen -->
+            <LinearLayout
+                android:id="@+id/ll_step_2_choose_style"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <!-- Header Bar -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/_8sdp">
+
+                    <ImageView
+                        android:id="@+id/btn_back_style"
+                        android:layout_width="@dimen/_24sdp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:padding="@dimen/_2sdp"
+                        android:src="@drawable/ic_arrow_back_purple" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_12sdp"
+                        android:fontFamily="@font/popins_medium"
+                        android:text="Choose Draping Style"
+                        android:textColor="#6C5CE7"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/popins_medium"
+                    android:text="Choose Draping Style"
+                    android:textColor="#1E1B4B"
+                    android:textSize="@dimen/_14ssp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:fontFamily="@font/popins_medium"
+                    android:text="Select a draping style to apply"
+                    android:textColor="#6B7280"
+                    android:textSize="@dimen/_9ssp" />
+
+                <!-- Style Cards Side by Side -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginVertical="@dimen/_12sdp"
+                    android:layout_weight="1"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <!-- Card 1: Style 1 -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_style_1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:focusable="true"
+                        app:cardCornerRadius="@dimen/_10sdp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="#6C5CE7"
+                        app:strokeWidth="2dp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:id="@+id/img_style_1_preview"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/image_style_2" />
+
+                            <TextView
+                                android:id="@+id/tv_style_1_label"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="top|start"
+                                android:layout_margin="@dimen/_6sdp"
+                                android:background="@drawable/bg_badge_style_1"
+                                android:fontFamily="@font/popins_medium"
+                                android:paddingHorizontal="@dimen/_8sdp"
+                                android:paddingVertical="@dimen/_2sdp"
+                                android:text="Nivi"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_8ssp" />
+
+                            <ImageView
+                                android:id="@+id/img_check_style_1"
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                android:layout_gravity="bottom|center_horizontal"
+                                android:layout_margin="@dimen/_8sdp"
+                                android:src="@drawable/ic_check_circle"
+                                android:visibility="visible" />
+                        </FrameLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Card 2: Style 2 -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_style_2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:focusable="true"
+                        app:cardCornerRadius="@dimen/_10sdp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="#6C5CE7"
+                        app:strokeWidth="0dp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:id="@+id/img_style_2_preview"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/image_style_1" />
+
+                            <TextView
+                                android:id="@+id/tv_style_2_label"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="top|start"
+                                android:layout_margin="@dimen/_6sdp"
+                                android:background="@drawable/bg_badge_style_1"
+                                android:fontFamily="@font/popins_medium"
+                                android:paddingHorizontal="@dimen/_8sdp"
+                                android:paddingVertical="@dimen/_2sdp"
+                                android:text="Seedha Pallu"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_8ssp" />
+
+                            <ImageView
+                                android:id="@+id/img_check_style_2"
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                android:layout_gravity="bottom|center_horizontal"
+                                android:layout_margin="@dimen/_8sdp"
+                                android:src="@drawable/ic_check_circle"
+                                android:visibility="gone" />
+                        </FrameLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
+
+                <!-- Action Button -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_apply_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_nav_gradient"
+                    android:fontFamily="@font/popins_medium"
+                    android:paddingVertical="@dimen/_10sdp"
+                    android:text="Apply Selected Style"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_12ssp"
+                    app:backgroundTint="@null"
+                    app:cornerRadius="@dimen/_10sdp" />
+            </LinearLayout>
+
+        </FrameLayout>
+    </LinearLayout>
+
+    <!-- Step 2: Add Product View (Preserved Result View) -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/ll_add_product"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:fillViewport="true"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.github.chrisbanes.photoview.PhotoView
+                android:id="@+id/img_tryon_result"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_208sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/popins_medium"
+                    android:text="SKU No"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:fitsSystemWindows="true"
+                    app:endIconMode="none"
+                    app:hintEnabled="false">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/et_sku_no"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/app_background_corner"
+                        android:fontFamily="@font/popins_medium"
+                        android:gravity="start"
+                        android:hint="Enter SKU No"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:paddingHorizontal="@dimen/_12sdp"
+                        android:paddingVertical="@dimen/_6sdp"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/dark_gray"
+                        android:textSize="@dimen/_12ssp" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/popins_medium"
+                    android:text="Price"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:fitsSystemWindows="true"
+                    app:endIconMode="none"
+                    app:hintEnabled="false">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/et_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/app_background_corner"
+                        android:fontFamily="@font/popins_medium"
+                        android:gravity="start"
+                        android:hint="Enter Price"
+                        android:imeOptions="actionNext"
+                        android:inputType="number"
+                        android:paddingHorizontal="@dimen/_12sdp"
+                        android:paddingVertical="@dimen/_6sdp"
+                        android:singleLine="true"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/dark_gray"
+                        android:textSize="@dimen/_12ssp" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/popins_medium"
+                    android:text="Offer Price"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:fitsSystemWindows="true"
+                    app:endIconMode="none"
+                    app:hintEnabled="false">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/et_offer_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/app_background_corner"
+                        android:fontFamily="@font/popins_medium"
+                        android:gravity="start"
+                        android:hint="Enter Offer Price"
+                        android:imeOptions="actionDone"
+                        android:inputType="number"
+                        android:paddingHorizontal="@dimen/_12sdp"
+                        android:paddingVertical="@dimen/_6sdp"
+                        android:singleLine="true"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/dark_gray"
+                        android:textSize="@dimen/_12ssp" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <!-- Upload button row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_height="wrap_content" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_upload"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:background="@drawable/button_nav_gradient"
+                    android:fontFamily="@font/popins_medium"
+                    android:text="Upload to Tryon"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_14ssp"
+                    app:backgroundTint="@null" />
+            </LinearLayout>
+
+            <!-- Cancel button row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_height="wrap_content" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_cancel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:background="@drawable/button_nav_gradient_cancel"
+                    android:fontFamily="@font/popins_medium"
+                    android:text="@string/cancel"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_14ssp"
+                    app:backgroundTint="@null" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>

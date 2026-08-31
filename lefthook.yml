@@ -1,0 +1,29 @@
+pre-commit:
+  parallel: true
+  jobs:
+    - name: biome-staged
+      glob: "*.{js,ts,jsx,tsx,json,css}"
+      run: pnpm biome check --no-errors-on-unmatched {staged_files}
+
+pre-push:
+  jobs:
+    - name: no-direct-main-push
+      run: bash scripts/check-no-direct-main-push.sh
+
+    - name: migrations-sync
+      run: bash scripts/check-migrations-sync.sh
+
+    - name: local-db-sync
+      run: bash scripts/check-local-db-sync.sh
+
+    - name: lint
+      run: pnpm biome check . --diagnostic-level=error
+
+    - name: typecheck
+      run: pnpm -r --filter "!@tryme/admin-mobile" run typecheck
+
+    - name: test-api
+      run: bash scripts/run-tests-if-changed.sh @tryme/api apps/api/ packages/db/ packages/types/ packages/storage/ packages/logger/ packages/observability/ pnpm-lock.yaml
+
+    - name: test-dispatcher
+      run: bash scripts/run-tests-if-changed.sh @tryme/dispatcher apps/dispatcher/ packages/db/ packages/types/ packages/storage/ packages/logger/ packages/observability/ pnpm-lock.yaml

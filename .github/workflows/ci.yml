@@ -1,0 +1,492 @@
+name: CI
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+  schedule:
+    # 02:30 UTC daily — validates the whole monorepo regardless of any diff, so a
+    # detector misclassification surfaces within a day instead of at the next incident.
+    - cron: '30 2 * * *'
+  workflow_dispatch:
+    inputs:
+      force_all:
+        description: Build, test and deploy every service regardless of the diff
+        type: boolean
+        default: false
+      services:
+        description: 'Comma-separated service subset, e.g. "api,web". Leave empty unless overriding.'
+        type: string
+        default: ''
+
+# Pull requests supersede themselves; main pushes never cancel each other.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  PNPM_VERSION: 9.12.0
+  NODE_VERSION: 22
+
+jobs:
+  detect:
+    name: Detect affected targets
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      services: ${{ steps.detect.outputs.services }}
+      compose_services: ${{ steps.detect.outputs.compose_services }}
+      test_targets: ${{ steps.detect.outputs.test_targets }}
+      docs_only: ${{ steps.detect.outputs.docs_only }}
+      fallback_to_all: ${{ steps.detect.outputs.fallback_to_all }}
+      migration_changed: ${{ steps.detect.outputs.migration_changed }}
+      has_deployable: ${{ steps.detect.outputs.has_deployable }}
+      has_tests: ${{ steps.detect.outputs.has_tests }}
+      has_packages: ${{ steps.detect.outputs.has_packages }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Detect affected targets
+        id: detect
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+          # A scheduled run has no meaningful diff range, so it always forces all.
+          FORCE_ALL: ${{ (github.event_name == 'schedule' || inputs.force_all) && 'true' || 'false' }}
+          SERVICES_OVERRIDE: ${{ inputs.services }}
+        run: pnpm ci:detect --out affected.json
+
+      - name: Upload detector result
+        uses: actions/upload-artifact@v4
+        with:
+          name: affected-targets
+          path: affected.json
+          retention-days: 14
+
+  lint:
+    name: Lint & format
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [detect]
+    # Skip on push: branch protection on main/dev blocks direct pushes and
+    # requires ci-gate to pass before a PR can merge, so every push event is
+    # definitionally a merge of a tree this job already validated at PR time
+    # (actions/checkout's default pull_request ref is the PR-vs-base test
+    # merge commit, so it's not just the PR head either). Re-running here
+    # bought no additional coverage, only ~7 redundant CI minutes on every
+    # single merge — this is what deploy actually needs to not wait on.
+    if: needs.detect.outputs.docs_only != 'true' && github.event_name != 'push'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Biome check
+        run: pnpm biome check .
+
+  typecheck:
+    name: Typecheck
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [detect]
+    # See lint's comment — skip on push, already validated at PR time.
+    if: needs.detect.outputs.has_packages == 'true' && github.event_name != 'push'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build shared packages
+        run: |
+          pnpm --filter @tryme/db build
+          pnpm --filter @tryme/types build
+          pnpm --filter @tryme/logger build
+          pnpm --filter @tryme/storage build
+          pnpm --filter @tryme/observability build
+
+      # Per-package typecheck filtering is Phase 2. Phase 1 keeps the whole-workspace
+      # typecheck but now skips this job entirely for docs-only pushes, which is where
+      # the time is actually saved.
+      - name: Typecheck workspace
+        run: pnpm -r --filter "!@tryme/admin-mobile" run typecheck
+
+  test:
+    name: Unit tests (${{ matrix.package }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [detect]
+    # See lint's comment — skip on push, already validated at PR time.
+    if: needs.detect.outputs.has_tests == 'true' && github.event_name != 'push'
+    strategy:
+      fail-fast: false
+      matrix:
+        package: ${{ fromJSON(needs.detect.outputs.test_targets) }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build shared packages
+        run: |
+          pnpm --filter @tryme/db build
+          pnpm --filter @tryme/types build
+          pnpm --filter @tryme/logger build
+          pnpm --filter @tryme/storage build
+          pnpm --filter @tryme/observability build
+
+      # Both suites use apps/api/test/helpers/containers.ts, which provisions a
+      # fresh database and bucket against these services on localhost.
+      - name: Start test infra (Postgres, Redis, MinIO)
+        run: docker compose -f infra/docker-compose.yml up -d --wait postgres redis minio
+
+      - name: Run unit tests
+        run: pnpm --filter ${{ matrix.package }} test:unit
+
+  test-integration:
+    name: Integration tests (${{ matrix.package }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [detect]
+    strategy:
+      fail-fast: false
+      matrix:
+        # Only apps/api and apps/dispatcher have a test:integration script.
+        package: ['@tryme/api', '@tryme/dispatcher']
+    # `matrix` isn't in the allowed-context list for a job-level `if:` (only
+    # github/inputs/needs/vars are — see actionlint's expression check), so the
+    # per-package skip has to live on every step instead of the job. A skipped
+    # step still reports job result 'success' (not 'skipped'), which ci-gate's
+    # success|skipped check already treats the same way, so gating behavior is
+    # unchanged — this only moves *where* the condition is evaluated.
+    steps:
+      - uses: actions/checkout@v4
+        if: contains(needs.detect.outputs.test_targets, matrix.package) && github.event_name != 'push'
+
+      - uses: pnpm/action-setup@v4
+        if: contains(needs.detect.outputs.test_targets, matrix.package) && github.event_name != 'push'
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        if: contains(needs.detect.outputs.test_targets, matrix.package) && github.event_name != 'push'
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install dependencies
+        if: contains(needs.detect.outputs.test_targets, matrix.package) && github.event_name != 'push'
+        run: pnpm install --frozen-lockfile
+
+      - name: Build shared packages
+        if: contains(needs.detect.outputs.test_targets, matrix.package) && github.event_name != 'push'
+        run: |
+          pnpm --filter @tryme/db build
+          pnpm --filter @tryme/types build
+          pnpm --filter @tryme/logger build
+          pnpm --filter @tryme/storage build
+          pnpm --filter @tryme/observability build
+
+      # Same fresh-DB-per-file harness as the unit job (apps/api/test/helpers/containers.ts).
+      - name: Start test infra (Postgres, Redis, MinIO)
+        if: contains(needs.detect.outputs.test_targets, matrix.package) && github.event_name != 'push'
+        run: docker compose -f infra/docker-compose.yml up -d --wait postgres redis minio
+
+      - name: Run integration tests
+        if: contains(needs.detect.outputs.test_targets, matrix.package) && github.event_name != 'push'
+        run: pnpm --filter ${{ matrix.package }} test:integration
+
+  ci-scripts:
+    name: Detector tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [detect]
+    # See lint's comment — skip on push, already validated at PR time.
+    if: github.event_name != 'push'
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run detector tests
+        run: pnpm test:ci-scripts
+
+      - name: Run staging env guardrail tests
+        run: bash scripts/staging/check-staging-env.test.sh
+
+      - name: Check migration index collisions against dev
+        run: pnpm ci:check-migration-index
+
+  gitleaks:
+    name: gitleaks
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install gitleaks
+        env:
+          GITLEAKS_VERSION: 8.21.2
+        run: |
+          set -euo pipefail
+          curl -sSL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" -o /tmp/gitleaks.tar.gz
+          tar -xzf /tmp/gitleaks.tar.gz -C /tmp gitleaks
+          sudo install /tmp/gitleaks /usr/local/bin/gitleaks
+          gitleaks version
+
+      - name: Scan for committed secrets
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_REF: ${{ github.base_ref }}
+          BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          # .gitleaks-baseline.json freezes every finding as of the commit it was
+          # generated from (see docs/version-control.md) — this repo's pre-existing
+          # history is not re-litigated on every run; only genuinely new secrets fail.
+          RANGE=""
+          if [[ "${EVENT_NAME}" == "pull_request" && -n "${BASE_REF}" ]]; then
+            git fetch --depth=50 origin "${BASE_REF}"
+            RANGE="origin/${BASE_REF}..HEAD"
+          elif [[ "${EVENT_NAME}" == "push" && -n "${BEFORE_SHA}" && "${BEFORE_SHA}" != "0000000000000000000000000000000000000000" ]]; then
+            RANGE="${BEFORE_SHA}..${GITHUB_SHA}"
+          fi
+          if [[ -n "${RANGE}" ]]; then
+            echo "scanning range: ${RANGE}"
+            gitleaks detect --config .gitleaks.toml --baseline-path .gitleaks-baseline.json --log-opts="${RANGE}" --redact
+          else
+            echo "no usable diff range (schedule/dispatch/first push) — scanning full history"
+            gitleaks detect --config .gitleaks.toml --baseline-path .gitleaks-baseline.json --redact
+          fi
+
+  branch-source-gate:
+    name: branch-source-gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    # Only meaningful for PRs targeting main; skipped otherwise so ci-gate's
+    # success/skipped check below still passes for dev-bound and non-PR runs.
+    if: github.event_name == 'pull_request' && github.base_ref == 'main'
+    steps:
+      - name: Restrict main to promotions from dev or hotfix/*
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+          if [[ "${HEAD_REF}" == "dev" || "${HEAD_REF}" == hotfix/* ]]; then
+            echo "ok: '${HEAD_REF}' is an allowed source branch for main"
+          else
+            echo "::error::main only accepts PRs from 'dev' or a 'hotfix/*' branch (got '${HEAD_REF}')"
+            exit 1
+          fi
+
+  ci-gate:
+    name: ci-gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: always()
+    needs: [detect, lint, typecheck, test, test-integration, ci-scripts, gitleaks, branch-source-gate]
+
+    steps:
+      - name: Fail if any required job failed or was cancelled
+        env:
+          RESULTS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          set -euo pipefail
+          echo "dependency results: ${RESULTS}"
+          for result in ${RESULTS}; do
+            case "${result}" in
+              success|skipped) ;;
+              *) echo "::error::a required job reported '${result}'"; exit 1 ;;
+            esac
+          done
+          echo "all required jobs succeeded or were intentionally skipped"
+
+  deploy:
+    name: Deploy affected services
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: [detect, ci-gate]
+    # `!cancelled()` is load-bearing, not decoration. GitHub propagates a
+    # `skipped` result transitively down the whole needs graph: when nothing
+    # testable changed, `test` skips (empty matrix), and that skip reaches
+    # `deploy` through `ci-gate` even though ci-gate itself has `always()`
+    # and succeeds — `always()` rescues only the job it is written on, not
+    # its descendants. A job escapes the propagation only if its own `if:`
+    # contains a status-check function, so without this the deploy silently
+    # skipped on every admin/web-only merge. Because adding a status
+    # function also drops the implicit `success()` on `needs`, the two
+    # result checks below restore that gate explicitly.
+    if: >-
+      !cancelled() &&
+      needs.detect.result == 'success' &&
+      needs['ci-gate'].result == 'success' &&
+      (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev') &&
+      (github.event_name == 'push' || github.event_name == 'workflow_dispatch') &&
+      needs.detect.outputs.has_deployable == 'true'
+    concurrency:
+      # Prod and staging must never share a group: a staging deploy must not be
+      # able to queue behind or cancel a production deploy.
+      group: tryme-${{ github.ref == 'refs/heads/main' && 'production' || 'staging' }}
+      cancel-in-progress: false
+
+    steps:
+      - name: Resolve deploy target
+        env:
+          PROD_DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+          STAGING_DEPLOY_PATH: ${{ secrets.STAGING_DEPLOY_PATH }}
+        run: |
+          set -euo pipefail
+          if [ "${GITHUB_REF}" = 'refs/heads/main' ]; then
+            echo "TARGET_ENV=production"                             >> "$GITHUB_ENV"
+            echo "TARGET_BRANCH=main"                                >> "$GITHUB_ENV"
+            echo "COMPOSE_FILE=infra/docker-compose.prod.yml"        >> "$GITHUB_ENV"
+            echo "ENV_FILE=.env.production"                          >> "$GITHUB_ENV"
+            echo "TARGET_DEPLOY_PATH=${PROD_DEPLOY_PATH}"            >> "$GITHUB_ENV"
+          else
+            echo "TARGET_ENV=staging"                                >> "$GITHUB_ENV"
+            echo "TARGET_BRANCH=dev"                                 >> "$GITHUB_ENV"
+            echo "COMPOSE_FILE=infra/docker-compose.staging.yml"     >> "$GITHUB_ENV"
+            echo "ENV_FILE=.env.staging"                             >> "$GITHUB_ENV"
+            echo "TARGET_DEPLOY_PATH=${STAGING_DEPLOY_PATH}"         >> "$GITHUB_ENV"
+          fi
+          echo "resolved target: $(grep TARGET_ENV "$GITHUB_ENV")"
+
+      - name: Deploy via SSH
+        env:
+          SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          DEPLOY_PATH: ${{ env.TARGET_DEPLOY_PATH }}
+          TARGET_ENV: ${{ env.TARGET_ENV }}
+          TARGET_BRANCH: ${{ env.TARGET_BRANCH }}
+          COMPOSE_FILE: ${{ env.COMPOSE_FILE }}
+          ENV_FILE: ${{ env.ENV_FILE }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          SERVICES: ${{ needs.detect.outputs.compose_services }}
+          MIGRATION_CHANGED: ${{ needs.detect.outputs.migration_changed }}
+          DEPLOY_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          trap 'rm -f /tmp/deploy_key' EXIT
+
+          install -m 600 /dev/null /tmp/deploy_key
+          echo "$SSH_KEY" > /tmp/deploy_key
+
+          echo "deploying services: ${SERVICES} at ${DEPLOY_SHA}"
+
+          ssh -i /tmp/deploy_key \
+              -o StrictHostKeyChecking=no \
+              -o ConnectTimeout=15 \
+              "${VPS_USER}@${VPS_HOST}" \
+              "set -euo pipefail
+               SERVICES='${SERVICES}'
+               MIGRATION_CHANGED='${MIGRATION_CHANGED}'
+               DEPLOY_SHA='${DEPLOY_SHA}'
+               TARGET_ENV='${TARGET_ENV}'
+               TARGET_BRANCH='${TARGET_BRANCH}'
+               COMPOSE=\"docker compose -f ${COMPOSE_FILE} --env-file ${ENV_FILE}\"
+
+               echo \"→ checking out \${DEPLOY_SHA}\"
+               git config --global --add safe.directory ${DEPLOY_PATH}
+               cd ${DEPLOY_PATH}
+               # Reset to the exact commit this run tested, not to whatever main
+               # points at right now: with two merges landing close together the
+               # earlier run would otherwise ship the later run's code, and the
+               # SHA that passed CI would not be the SHA deployed. Fetching main
+               # first guarantees the commit is present (it is always an ancestor
+               # of, or equal to, the branch tip) without relying on the server
+               # allowing a bare-SHA fetch.
+               git fetch https://x-access-token:${GH_TOKEN}@github.com/${GH_REPO}.git \${TARGET_BRANCH}
+               git reset --hard \${DEPLOY_SHA}
+
+               if [ \"\${TARGET_ENV}\" = 'staging' ]; then
+                 echo '→ verifying .env.staging is not production'
+                 # Staging and production are separate CloudPanel sites with their own
+                 # per-site home directories (tryme-staging-app vs tryme-app), not
+                 # siblings under one parent — an absolute path is required here.
+                 bash scripts/staging/check-staging-env.sh .env.staging /home/tryme-app/htdocs/app.tryme.com/.env.production
+               fi
+
+               echo \"→ building images for: \${SERVICES}\"
+               \${COMPOSE} build \${SERVICES}
+
+               if [ \"\${MIGRATION_CHANGED}\" = 'true' ]; then
+                 echo '→ applying DB migrations'
+                 \${COMPOSE} run --rm api pnpm db:migrate:prod
+               else
+                 echo '→ no migration changes; skipping migrate'
+               fi
+
+               echo '→ verifying all migrations applied'
+               \${COMPOSE} run --rm api pnpm db:verify:prod
+
+               echo \"→ recreating: \${SERVICES}\"
+               \${COMPOSE} up -d --no-deps --force-recreate \${SERVICES}
+
+               echo '→ cleaning dangling images'
+               docker image prune -f
+
+               echo \"✓ deploy done: \${SERVICES}\""

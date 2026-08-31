@@ -1,0 +1,75 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "771a0258b180063d6015e4f5f8f1f586"
+name = "TryMe"
+# Must be the embedded SPA's entry point, NOT /v1/shopify/auth. Shopify appends
+# the host/id_token params App Bridge needs to whatever URL it opens here, and
+# pointing this at the OAuth endpoint instead would send every app open through a
+# full OAuth round trip that ends back at this URL — an infinite redirect loop.
+# This value had drifted from the live Partner Dashboard config; a
+# `shopify app deploy` would have overwritten the working URL with the broken one.
+application_url = "https://app.tryme.com/shopify-admin/embedded"
+embedded = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+# These scopes are registered with Shopify and granted by Shopify's own install
+# UI. `use_legacy_install_flow` is deliberately absent: with it set, the app had
+# to run its own authorization-code redirect, which repeatedly re-entered
+# Shopify's App Store install entry (/admin/oauth/redirect_to_install/embedded)
+# and got the shop throttled with 429 during automated review. Under managed
+# installation Shopify installs the app without calling us, and the first
+# authenticated request's session token is exchanged for an offline access
+# token (see exchangeSessionToken in apps/api/src/modules/shopify/token.ts).
+scopes = "read_products,write_products"
+optional_scopes = [ ]
+
+[auth]
+redirect_urls = [
+  "https://app.tryme.com/v1/shopify/auth/callback"
+]
+
+# SEC-7.1: the storefront tryon widget's requests get proxied through Shopify
+# (which signs each one — see apps/api/src/plugins/shopify-widget-auth.ts)
+# instead of calling app.tryme.com directly with a static, page-source-visible
+# X-Widget-Key. /apps/widget/* on any shop's storefront hits this.
+[app_proxy]
+url = "https://app.tryme.com/v1/shopify/proxy"
+subpath = "widget"
+prefix = "apps"
+
+[webhooks]
+api_version = "2026-07"
+
+  [webhooks.privacy_compliance]
+  customer_deletion_url = "https://app.tryme.com/v1/shopify/webhooks/customers_redact"
+  customer_data_request_url = "https://app.tryme.com/v1/shopify/webhooks/customers_data_request"
+  shop_deletion_url = "https://app.tryme.com/v1/shopify/webhooks/shop_redact"
+
+  # Declared here (app-wide), not only via the per-shop registerWebhooksDecorator
+  # call in auth.routes.ts (provisionShopifyStore) — that call only fires at
+  # first install or reauth, so a store installed before this topic existed
+  # would otherwise never get subscribed. A `make shopify-deploy` publishes
+  # this subscription for every install, existing and new.
+  [[webhooks.subscriptions]]
+  topics = [ "app_purchases_one_time/update" ]
+  uri = "https://app.tryme.com/v1/shopify/webhooks/app_purchases_one_time_update"
+
+  # Same reasoning as the app_purchases_one_time/update block above: the
+  # per-shop registerWebhooksDecorator call in auth.routes.ts only fires at
+  # first install or reauth, so a store that had auto-refill's subscription
+  # topic added after it already installed would never get subscribed via
+  # that path. Declaring it here makes `make shopify-deploy` apply it to
+  # every existing install, not just new ones.
+  [[webhooks.subscriptions]]
+  topics = [ "app_subscriptions/update" ]
+  uri = "https://app.tryme.com/v1/shopify/webhooks/app_subscriptions_update"
+
+  # Fires at 90% of the merchant's approved monthly ceiling. Without it the
+  # first they hear about the limit is when auto-refill has already stopped and
+  # their balance is draining — this is the only chance to tell them while
+  # raising the ceiling still prevents that. Declared app-wide for the same
+  # reason as the two blocks above.
+  [[webhooks.subscriptions]]
+  topics = [ "app_subscriptions/approaching_capped_amount" ]
+  uri = "https://app.tryme.com/v1/shopify/webhooks/app_subscriptions_approaching_capped_amount"

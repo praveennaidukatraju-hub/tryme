@@ -1,0 +1,8 @@
+/vendor/
+composer.lock
+.phpunit.result.cache
+node_modules/
+/dist-stage/
+
+# Local WordPress+WooCommerce test environment — downloaded/generated, not source.
+/local-wp/plugins/

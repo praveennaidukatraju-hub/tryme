@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "targets": [
+    {
+      "name": "api",
+      "dir": "apps/api",
+      "packageName": "@tryme/api",
+      "dockerfile": "apps/api/Dockerfile",
+      "composeService": "api"
+    },
+    {
+      "name": "api",
+      "dir": "apps/chatbot",
+      "packageName": "@tryme/chatbot",
+      "dockerfile": "apps/chatbot/Dockerfile",
+      "composeService": "chatbot"
+    }
+  ],
+  "separateSurfaces": [],
+  "testablePackages": [],
+  "docsPaths": [],
+  "ciPaths": [],
+  "infraPaths": [],
+  "deploymentBundlePaths": [],
+  "globalRebuildPaths": []
+}

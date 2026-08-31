@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Debug-only override: Gradle merges this over app/src/main/res/xml/network_config_file.xml
+     for debug builds only, so local dev (plain HTTP against localhost/LAN) keeps working
+     without weakening the release build, which uses the strict main/ config unconditionally. -->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="user" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>

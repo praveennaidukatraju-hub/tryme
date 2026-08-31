@@ -1,0 +1,11 @@
+title = "tryme gitleaks config"
+
+[extend]
+useDefault = true
+
+[allowlist]
+  description = "known non-secret test fixtures reused across integration tests"
+  regexes = [
+    '''test-jwt-secret-0123456789abcdef-32min''',
+    '''Passw0rdTest123''',
+  ]

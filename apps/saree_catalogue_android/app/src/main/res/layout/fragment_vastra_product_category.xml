@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/screen_bg"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.VastraProductFragment">
+
+    <ImageView
+        android:layout_width="@dimen/_120sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_gravity="start"
+        android:layout_marginStart="0dp"
+        android:paddingEnd="0dp"
+        android:scaleType="fitStart"
+        android:id="@+id/title"
+        android:paddingVertical="@dimen/_7sdp"
+        android:paddingStart="@dimen/_4sdp"
+        android:src="@drawable/av_new_logo_horizontal" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/_10sdp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/_3sdp"
+            android:clipToPadding="false"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="0.62">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:spanCount="2"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    android:orientation="vertical"
+                    android:id="@+id/recycler_vastra_item"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:spanCount="2"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:id="@+id/recycler_search_product_item"/>
+
+
+            </RelativeLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.60"
+                android:id="@+id/rl_main_catlist"
+                android:visibility="gone"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_3sdp"
+                android:backgroundTint="@null"
+                app:cardBackgroundColor="@android:color/transparent"
+                app:shapeAppearanceOverlay="@style/SpecificCornerCutImage">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_vastra_cat">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_margin="@dimen/_7sdp"
+                            app:cardBackgroundColor="@color/white"
+                            app:shapeAppearanceOverlay="@style/SpecificCornerCutImage">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:layout_gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <EditText
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="Search Code..."
+                                    android:layout_weight="1"
+                                    android:singleLine="true"
+                                    android:imeOptions="actionSearch"
+                                    android:paddingLeft="@dimen/_2sdp"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_10ssp"
+                                    android:textColorHint="@color/app_theme"
+                                    android:id="@+id/et_product_search"
+                                    android:background="@android:color/transparent"/>
+
+                                <ImageView
+                                    android:layout_width="@dimen/_18sdp"
+                                    android:layout_height="@dimen/_18sdp"
+                                    android:layout_marginRight="@dimen/_2sdp"
+                                    android:id="@+id/icon_search"
+                                    android:src="@drawable/ic_search" />
+                            </LinearLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:clipToPadding="false"
+                            android:paddingStart="@dimen/_7sdp"
+                            android:paddingEnd="@dimen/_7sdp"
+                            android:paddingBottom="@dimen/_7sdp"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            android:orientation="vertical"
+                            android:id="@+id/recycler_vastra_category"/>
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_product_found"
+            android:padding="@dimen/_10sdp"
+            android:textColor="@color/app_theme"
+            android:layout_centerInParent="true"
+            android:id="@+id/txt_no_data"
+            android:visibility="gone"
+            android:fontFamily="@font/popins_bold"
+            android:textSize="@dimen/_12ssp"/>
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>

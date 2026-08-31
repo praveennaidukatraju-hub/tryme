@@ -1,0 +1,438 @@
+/* ==========================================================================
+   Tryme Try-On - Admin Settings Page
+   Palette mirrors assets/widget.css so the storefront widget and the admin
+   screen read as one product, not two plugins bolted together.
+   ========================================================================== */
+
+.tryme-settings-wrap {
+  --tryme-primary: #0f172a;
+  --tryme-primary-hover: #1e293b;
+  --tryme-accent: #6366f1;
+  --tryme-accent-soft: #eef2ff;
+  --tryme-accent-border: #c7d2fe;
+  --tryme-surface: #ffffff;
+  --tryme-surface-subtle: #f8fafc;
+  --tryme-surface-muted: #f1f5f9;
+  --tryme-border: #e2e8f0;
+  --tryme-text-main: #0f172a;
+  --tryme-text-muted: #64748b;
+  --tryme-text-subtle: #94a3b8;
+  --tryme-success: #15803d;
+  --tryme-success-soft: #f0fdf4;
+  --tryme-success-border: #bbf7d0;
+  --tryme-danger: #b91c1c;
+  --tryme-danger-soft: #fef2f2;
+  --tryme-danger-border: #fecaca;
+  --tryme-radius-card: 16px;
+  --tryme-radius-control: 10px;
+  --tryme-shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px -12px rgba(15, 23, 42, 0.12);
+  max-width: 720px;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.tryme-settings-wrap h1 {
+  font-size: 23px;
+  font-weight: 700;
+  color: var(--tryme-text-main);
+  margin: 0 0 4px;
+  padding: 0;
+}
+
+.tryme-page-header {
+  margin-bottom: 20px;
+}
+
+.tryme-page-subtitle {
+  color: var(--tryme-text-muted);
+  font-size: 14px;
+  margin: 0;
+}
+
+.tryme-notice.notice {
+  border-radius: 8px;
+  border-left-width: 4px;
+  margin: 0 0 20px;
+}
+
+.tryme-card {
+  background: var(--tryme-surface);
+  border: 1px solid var(--tryme-border);
+  border-radius: var(--tryme-radius-card);
+  box-shadow: var(--tryme-shadow-card);
+  padding: 28px;
+  margin-bottom: 24px;
+}
+
+/* Status card */
+.tryme-status-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.tryme-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.tryme-badge-success {
+  background: var(--tryme-success-soft);
+  color: var(--tryme-success);
+  border: 1px solid var(--tryme-success-border);
+}
+
+.tryme-status-company {
+  color: var(--tryme-text-muted);
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.tryme-credit-stat {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0;
+}
+
+.tryme-credit-number {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--tryme-text-main);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.tryme-credit-label {
+  font-size: 14px;
+  color: var(--tryme-text-muted);
+  font-weight: 500;
+}
+
+.tryme-credit-meta {
+  color: var(--tryme-text-subtle);
+  font-size: 12.5px;
+  margin: 4px 0 24px;
+}
+
+/* Action row — a plain one-click Refresh button next to the "Update
+   connection keys" accordion. flex-basis: 100% on the open accordion forces
+   it onto its own full-width line instead of squeezing the reveal into
+   whatever space happens to be left beside the Refresh button. */
+.tryme-action-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.tryme-refresh-form {
+  margin: 0;
+}
+
+.tryme-accordion {
+  border-radius: var(--tryme-radius-control);
+}
+
+.tryme-accordion[open] {
+  flex-basis: 100%;
+  border: 1px solid var(--tryme-accent-border);
+  border-radius: var(--tryme-radius-control);
+  overflow: hidden;
+}
+
+.tryme-accordion[open] > summary {
+  border: none;
+  border-bottom: 1px solid var(--tryme-border);
+  border-radius: 0;
+}
+
+/* Same box model as .tryme-btn (box-sizing, padding, border width) so the
+   closed accordion trigger sits at the exact same height as the plain
+   Refresh button beside it — the border lives on the trigger itself, not on
+   the (borderless-when-closed) .tryme-accordion wrapper. */
+.tryme-accordion > summary {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--tryme-text-main);
+  cursor: pointer;
+  list-style: none;
+  background: var(--tryme-surface-subtle);
+  border: 1px solid var(--tryme-border);
+  border-radius: var(--tryme-radius-control);
+}
+
+.tryme-accordion > summary::-webkit-details-marker {
+  display: none;
+}
+
+.tryme-accordion > summary > svg:first-child {
+  color: var(--tryme-text-muted);
+  flex-shrink: 0;
+}
+
+.tryme-chevron {
+  margin-left: auto;
+  color: var(--tryme-text-subtle) !important;
+  transition: transform 0.15s ease;
+  flex-shrink: 0;
+}
+
+.tryme-accordion[open] > summary .tryme-chevron {
+  transform: rotate(180deg);
+}
+
+.tryme-accordion-body {
+  padding: 18px 16px;
+  border-top: 1px solid var(--tryme-border);
+}
+
+/* Forms & inputs, shared by every form on this page */
+.tryme-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+}
+
+.tryme-form label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--tryme-text-main);
+}
+
+.tryme-input,
+.tryme-select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 9px 12px;
+  font-size: 13.5px;
+  border: 1px solid var(--tryme-border);
+  border-radius: var(--tryme-radius-control);
+  background: var(--tryme-surface);
+  color: var(--tryme-text-main);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.tryme-input:focus,
+.tryme-select:focus {
+  outline: none;
+  border-color: var(--tryme-accent);
+  box-shadow: 0 0 0 3px var(--tryme-accent-soft);
+}
+
+/* Buttons */
+.tryme-btn {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 16px;
+  font-size: 13.5px;
+  font-weight: 600;
+  border-radius: var(--tryme-radius-control);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.tryme-btn-primary {
+  background: var(--tryme-primary);
+  color: #fff;
+  align-self: flex-start;
+}
+
+.tryme-btn-primary:hover {
+  background: var(--tryme-primary-hover);
+  color: #fff;
+}
+
+.tryme-btn-secondary {
+  background: var(--tryme-surface-subtle);
+  color: var(--tryme-text-main);
+  border-color: var(--tryme-border);
+}
+
+.tryme-btn-secondary:hover {
+  background: var(--tryme-surface-muted);
+  color: var(--tryme-text-main);
+}
+
+.tryme-btn-block {
+  align-self: stretch;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.tryme-btn-danger-ghost {
+  background: transparent;
+  color: var(--tryme-danger);
+  border-color: var(--tryme-danger-border);
+  flex-shrink: 0;
+}
+
+.tryme-btn-danger-ghost:hover {
+  background: var(--tryme-danger-soft);
+  color: var(--tryme-danger);
+}
+
+/* Danger zone */
+.tryme-danger-zone {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--tryme-border);
+}
+
+.tryme-danger-copy strong {
+  display: block;
+  font-size: 13.5px;
+  color: var(--tryme-text-main);
+  margin-bottom: 2px;
+}
+
+.tryme-danger-copy p {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--tryme-text-muted);
+  max-width: 380px;
+  line-height: 1.5;
+}
+
+/* Connect card / connect form (shared with the "Update connection keys" reveal) */
+.tryme-connect-heading {
+  font-size: 17px;
+  margin: 0 0 6px;
+  color: var(--tryme-text-main);
+}
+
+.tryme-connect-description {
+  color: var(--tryme-text-muted);
+  font-size: 13.5px;
+  margin: 0 0 24px;
+}
+
+.tryme-step {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.tryme-step-number {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--tryme-accent);
+  color: #fff;
+  font-weight: 700;
+  font-size: 12.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tryme-step-body {
+  flex: 1;
+}
+
+.tryme-step-body label {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.tryme-step-hint {
+  margin: 0 0 8px;
+  color: var(--tryme-text-muted);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+/* Category mapping card */
+.tryme-card-heading {
+  font-size: 16px;
+  margin: 0 0 8px;
+  color: var(--tryme-text-main);
+}
+
+.tryme-card-description {
+  color: var(--tryme-text-muted);
+  font-size: 13px;
+  margin: 0 0 18px;
+}
+
+.tryme-empty-state {
+  color: var(--tryme-text-muted);
+  font-size: 13.5px;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.tryme-mapping-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tryme-mapping-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 14px;
+  background: var(--tryme-surface-subtle);
+  border-radius: var(--tryme-radius-control);
+}
+
+.tryme-mapping-label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--tryme-text-main);
+}
+
+.tryme-mapping-row .tryme-select {
+  width: auto;
+  min-width: 200px;
+}
+
+.tryme-settings-wrap code {
+  background: var(--tryme-surface-muted);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+@media (max-width: 600px) {
+  .tryme-danger-zone,
+  .tryme-mapping-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .tryme-mapping-row .tryme-select {
+    width: 100%;
+  }
+}

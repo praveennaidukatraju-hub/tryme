@@ -1,0 +1,53 @@
+services:
+  db:
+    image: mariadb:10.11
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: wproot
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+    volumes:
+      - db_data:/var/lib/mysql
+
+  wordpress:
+    image: wordpress:php8.1-apache
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - "8888:80"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DEBUG: 1
+    volumes:
+      - wp_data:/var/www/html
+      - ../:/var/www/html/wp-content/plugins/tryme-tryon
+      - ./plugins/woocommerce:/var/www/html/wp-content/plugins/woocommerce
+      - ./themes/storefront-tryme:/var/www/html/wp-content/themes/storefront-tryme
+
+  wpcli:
+    image: wordpress:cli-php8.1
+    depends_on:
+      - db
+      - wordpress
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+    volumes:
+      - wp_data:/var/www/html
+      - ../:/var/www/html/wp-content/plugins/tryme-tryon
+      - ./plugins/woocommerce:/var/www/html/wp-content/plugins/woocommerce
+      - ./themes/storefront-tryme:/var/www/html/wp-content/themes/storefront-tryme
+      - "../../men garments:/import/men:ro"
+      - "../../womens garments:/import/women:ro"
+    entrypoint: ["tail", "-f", "/dev/null"]
+
+volumes:
+  db_data:
+  wp_data:

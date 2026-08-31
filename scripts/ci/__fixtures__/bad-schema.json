@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 2,
+  "targets": [],
+  "separateSurfaces": [],
+  "testablePackages": [],
+  "docsPaths": [],
+  "ciPaths": [],
+  "infraPaths": [],
+  "deploymentBundlePaths": [],
+  "globalRebuildPaths": []
+}

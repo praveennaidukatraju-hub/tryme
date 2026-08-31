@@ -1,0 +1,56 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+#
+# Dev-only app config — separate Partner Dashboard app record from the
+# production "TryMe" app (shopify.app.toml). Keeps `shopify app deploy`
+# and local iteration from ever touching the live prod app's registered
+# URLs. Update the ngrok host below whenever the tunnel rotates.
+
+client_id = "2619ec2b9dab42d4468aa50cab0d6714"
+name = "TryMe Dev"
+application_url = "https://aplanatic-unreciprocated-susy.ngrok-free.dev"
+embedded = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+# Mirrors shopify.app.toml: managed installation, so no
+# `use_legacy_install_flow` here either. See that file for why.
+scopes = "read_products,write_products"
+optional_scopes = [ ]
+
+[auth]
+redirect_urls = [
+  "https://aplanatic-unreciprocated-susy.ngrok-free.dev/v1/shopify/auth/callback"
+]
+
+# Mirrors shopify.app.toml — see that file for why. Update alongside the ngrok
+# host above whenever the tunnel rotates.
+[app_proxy]
+url = "https://aplanatic-unreciprocated-susy.ngrok-free.dev/v1/shopify/proxy"
+subpath = "widget"
+prefix = "apps"
+
+[webhooks]
+api_version = "2026-07"
+
+  [webhooks.privacy_compliance]
+  customer_deletion_url = "https://aplanatic-unreciprocated-susy.ngrok-free.dev/v1/shopify/webhooks/customers_redact"
+  customer_data_request_url = "https://aplanatic-unreciprocated-susy.ngrok-free.dev/v1/shopify/webhooks/customers_data_request"
+  shop_deletion_url = "https://aplanatic-unreciprocated-susy.ngrok-free.dev/v1/shopify/webhooks/shop_redact"
+
+  # Mirrors shopify.app.toml — see that file for why this is declared here
+  # rather than relying solely on the per-shop registration call. Update
+  # alongside the ngrok host above whenever the tunnel rotates.
+  [[webhooks.subscriptions]]
+  topics = [ "app_purchases_one_time/update" ]
+  uri = "https://aplanatic-unreciprocated-susy.ngrok-free.dev/v1/shopify/webhooks/app_purchases_one_time_update"
+
+  # Mirrors shopify.app.toml — see that file for why this is declared here
+  # rather than relying solely on the per-shop registration call. Update
+  # alongside the ngrok host above whenever the tunnel rotates.
+  [[webhooks.subscriptions]]
+  topics = [ "app_subscriptions/update" ]
+  uri = "https://aplanatic-unreciprocated-susy.ngrok-free.dev/v1/shopify/webhooks/app_subscriptions_update"
+
+  [[webhooks.subscriptions]]
+  topics = [ "app_subscriptions/approaching_capped_amount" ]
+  uri = "https://aplanatic-unreciprocated-susy.ngrok-free.dev/v1/shopify/webhooks/app_subscriptions_approaching_capped_amount"

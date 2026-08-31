@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.TryMeAdmin" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowBackground">@drawable/screen_bg</item>
+        <item name="android:statusBarColor">@color/app_background</item>
+        <item name="android:navigationBarColor">@color/app_background</item>
+        <item name="android:fitsSystemWindows">true</item>
+    </style>
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
+    </style>
+
+    <style name="BottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <!-- Transparent background -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <!-- Rounded corners -->
+        <item name="shapeAppearanceLargeComponent">@style/RoundedCorners</item>
+    </style>
+
+
+    <style name="RoundedCorners">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+
+    <style name="BottomSheetDialogThemeFullWidth" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
+    </style>
+
+    <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="SpecificCornerCutImage">
+        <item name="cornerSizeTopLeft">10dp</item>
+        <item name="cornerFamilyTopLeft">cut</item>
+        <item name="cornerSizeBottomRight">10dp</item>
+        <item name="cornerFamilyBottomRight">cut</item>
+    </style>
+
+    <style name="SpecificCornerCutProductImage">
+        <item name="cornerSizeTopLeft">20dp</item>
+        <item name="cornerFamilyTopLeft">cut</item>
+        <item name="cornerSizeBottomRight">20dp</item>
+        <item name="cornerFamilyBottomRight">cut</item>
+    </style>
+
+    <style name="FullScreenDialog" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@drawable/screen_bg</item>
+    </style>
+
+</resources>

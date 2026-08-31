@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="silk saree"
+    android:textColor="@color/black"
+    android:background="@color/white"
+    android:textSize="@dimen/_14ssp"
+    android:textAlignment="center"
+    android:padding="@dimen/_10sdp"
+    android:singleLine="true"
+    android:ellipsize="end"
+    android:fontFamily="@font/popins_medium"
+    android:id="@+id/txt_category_name"/>

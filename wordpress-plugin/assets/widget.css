@@ -1,0 +1,900 @@
+/* ==========================================================================
+   Tryme Try-On - Premium WooCommerce Widget Styles
+   ========================================================================== */
+
+:root {
+  --tryme-font-sans:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --tryme-primary: #0f172a;
+  --tryme-primary-hover: #1e293b;
+  --tryme-accent: #6366f1;
+  --tryme-surface: #ffffff;
+  --tryme-surface-subtle: #f8fafc;
+  --tryme-surface-muted: #f1f5f9;
+  --tryme-border: #e2e8f0;
+  --tryme-text-main: #0f172a;
+  --tryme-text-muted: #64748b;
+  --tryme-text-subtle: #94a3b8;
+  --tryme-radius-modal: 20px;
+  --tryme-radius-card: 16px;
+  --tryme-radius-btn: 12px;
+  --tryme-shadow-modal: 0 25px 50px -12px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  --tryme-shadow-btn: 0 4px 14px -2px rgba(15, 23, 42, 0.16);
+}
+
+/* Force hidden elements to never show */
+/* biome-ignore lint/complexity/noImportantStyles: many step-content elements
+   share equal (0,1,0) specificity with this bare [hidden] catch-all and are
+   declared later in the file, which would otherwise win the cascade and
+   silently un-hide a toggled element. */
+.tryme-tryon-modal [hidden],
+.tryme-tryon-modal-content [hidden],
+[hidden] {
+  display: none !important;
+}
+
+/* Base Trigger Button */
+.tryme-tryon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 14px;
+  padding: 12px 22px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  background: #0f172a;
+  color: #ffffff;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  box-shadow:
+    0 4px 14px rgba(15, 23, 42, 0.15),
+    0 2px 4px rgba(15, 23, 42, 0.08);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+  text-decoration: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+.tryme-tryon-button:hover {
+  background: #1e293b;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px -2px rgba(15, 23, 42, 0.25);
+  color: #ffffff;
+}
+
+.tryme-tryon-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.15);
+}
+
+.tryme-tryon-button .tryme-button-icon {
+  display: inline-flex;
+  color: #fbbf24;
+  flex-shrink: 0;
+}
+
+/* Bottom-right floating panel, not a full-screen modal — matches the Shopify
+   widget's positioning (apps/shopify-extension's tryon-widget.css). No
+   backdrop/scrim: the rest of the page stays visible and interactive, same
+   as Shopify's. z-index was previously kept modest (40) so a theme's own
+   sticky header would still win a stacking conflict — but on a live product
+   page a gallery/carousel thumbnail (its own stacking context, unrelated to
+   headers) rendered on top of the panel instead. A floating action panel
+   should always win over ordinary page content, so this goes back to an
+   assertive value; a genuinely fixed site header is rare enough, and
+   important enough to still see, that this may need revisiting per-theme. */
+.tryme-tryon-modal {
+  position: fixed;
+  inset: auto 24px 24px auto;
+  z-index: 999999;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  box-sizing: border-box;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+  animation: trymeFadeIn 0.2s ease-out;
+}
+
+.tryme-tryon-modal[hidden] {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .tryme-tryon-modal {
+    inset: auto 12px 12px 12px;
+  }
+}
+
+/* Modal Content Card */
+.tryme-tryon-modal-content {
+  position: relative;
+  background: #ffffff;
+  border-radius: var(--tryme-radius-modal, 20px);
+  padding: 24px;
+  max-width: 440px;
+  width: 100%;
+  max-height: 94dvh;
+  box-sizing: border-box;
+  box-shadow: var(--tryme-shadow-modal);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: #0f172a;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+  animation: trymeScaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  -webkit-font-smoothing: antialiased;
+}
+
+.tryme-tryon-modal-content * {
+  box-sizing: border-box;
+}
+
+.tryme-tryon-modal-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.tryme-tryon-modal-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tryme-tryon-modal-content::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 999px;
+}
+
+/* Header & Close Button */
+.tryme-modal-header {
+  position: relative;
+  /* Clears both the close button and the history button when it's shown
+     (right: 60px, 32px wide) — a few px wider than strictly needed when
+     history is hidden, which is a harmless, simpler tradeoff than toggling
+     this per-step. */
+  padding-right: 80px;
+  margin-bottom: 18px;
+}
+
+.tryme-modal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #f1f5f9;
+  color: #475569;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.tryme-modal-badge svg {
+  color: #6366f1;
+}
+
+.tryme-modal-title {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.tryme-modal-subtitle {
+  margin: 4px 0 0 0;
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+.tryme-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #e2e8f0;
+  border-radius: 50%;
+  background: #f8fafc;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  z-index: 10;
+  transition: all 0.15s ease;
+}
+
+.tryme-modal-close:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+  border-color: #cbd5e1;
+  transform: scale(1.05);
+}
+
+.tryme-modal-close:active {
+  transform: scale(0.95);
+}
+
+/* Sits just left of the close button, same size/shape — a persistent way
+   back into History from any step, matching the Shopify widget's header
+   history button. */
+.tryme-modal-history-btn {
+  position: absolute;
+  top: 16px;
+  right: 60px;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #e2e8f0;
+  border-radius: 50%;
+  background: #f8fafc;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  z-index: 10;
+  transition: all 0.15s ease;
+}
+
+.tryme-modal-history-btn:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+  border-color: #cbd5e1;
+}
+
+.tryme-history-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 3px;
+  border-radius: 999px;
+  background: #6366f1;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 16px;
+  text-align: center;
+}
+
+.tryme-history-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-content: start;
+  gap: 10px;
+  min-height: 220px;
+  max-height: 55dvh;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.tryme-history-tile {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--tryme-radius-card, 16px);
+  overflow: hidden;
+  padding: 0;
+  cursor: pointer;
+  background: #f8fafc;
+  transition: transform 0.15s ease;
+}
+
+.tryme-history-tile:hover {
+  transform: scale(1.02);
+}
+
+.tryme-history-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.tryme-history-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+  padding: 32px 16px;
+  text-align: center;
+  color: #64748b;
+  font-size: 13px;
+}
+
+/* Full-screen photo viewer — a sibling of the modal (both reparented to
+   <body>), not nested inside it, so it covers the whole viewport instead of
+   being clipped to the modal's own box. */
+.tryme-tryon-lightbox {
+  position: fixed;
+  inset: 0;
+  /* Must stay above .tryme-tryon-modal's own z-index. */
+  z-index: 1000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(9, 9, 11, 0.9);
+  box-sizing: border-box;
+}
+
+.tryme-tryon-lightbox[hidden] {
+  display: none;
+}
+
+.tryme-lightbox-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.tryme-lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 36px;
+  height: 36px;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  /* Unlike the modal's own close/history buttons (both z-index:10, safely
+     inside .tryme-tryon-modal-content's own stacking context), this
+     button's only sibling is the result <img> — many themes/galleries give
+     product/result images `position: relative` for hover badges, which
+     would otherwise let the image win the stacking order (it comes later
+     in the DOM) and paint over this button with no visible close control. */
+  z-index: 1;
+  transition: background 0.15s ease;
+}
+
+.tryme-lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+/* Upload Dropzone */
+.tryme-upload-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.tryme-upload-dropzone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 36px 20px;
+  border: 1.5px dashed #cbd5e1;
+  border-radius: var(--tryme-radius-card, 16px);
+  background: #f8fafc;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tryme-upload-dropzone:hover {
+  border-color: #6366f1;
+  background: #f5f3ff;
+}
+
+.tryme-upload-icon-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6366f1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease;
+}
+
+.tryme-upload-dropzone:hover .tryme-upload-icon-circle {
+  transform: scale(1.08);
+}
+
+.tryme-upload-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.tryme-upload-main-text {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.tryme-upload-sub-text {
+  font-size: 12px;
+  color: #64748b;
+  max-width: 260px;
+  line-height: 1.4;
+}
+
+.tryme-file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* Upload Preview Card */
+.tryme-preview-card {
+  position: relative;
+  width: 100%;
+  border-radius: var(--tryme-radius-card, 16px);
+  overflow: hidden;
+  background: #09090b;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.tryme-preview-aspect {
+  position: relative;
+  width: 100%;
+  /* Overridden inline by fitToAspectRatio() once the photo loads — capped at
+     max-height so a tall portrait upload can't grow this box past the room
+     left for the header, privacy notice and Generate button below it,
+     forcing a scroll to reach a button that's really just off-screen right
+     below the fold (matches .tryme-result-wrapper's same cap). */
+  aspect-ratio: 3 / 4;
+  max-height: 42dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #09090b;
+}
+
+.tryme-preview-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.tryme-change-photo-btn {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  transition: all 0.15s ease;
+}
+
+.tryme-change-photo-btn:hover {
+  background: #0f172a;
+  transform: translateX(-50%) scale(1.03);
+}
+
+.tryme-privacy-notice {
+  margin: 0;
+  text-align: center;
+  font-size: 11.5px;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+/* Result Presentation */
+.tryme-result-wrapper {
+  position: relative;
+  border-radius: var(--tryme-radius-card, 16px);
+  overflow: hidden;
+  background: #f8fafc;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.06);
+  margin-top: 4px;
+  /* Overridden inline by fitToAspectRatio() once the image loads, so a
+     portrait result isn't letterboxed inside a flat landscape box. Capped
+     lower than it used to be (was 60dvh): Add to Cart/Download/Share/Try
+     Another Photo below it are a taller stack now than when 60dvh was
+     chosen, and left unchanged it pushed the whole panel past the modal's
+     own max-height, forcing an internal scroll to reach the buttons. */
+  aspect-ratio: 3 / 4;
+  max-height: 38dvh;
+}
+
+.tryme-result-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* biome-ignore lint/complexity/noImportantStyles: some themes globally
+     reset `img { object-fit: cover }`, which would crop the top/bottom of a
+     portrait result instead of letterboxing it. This box must never crop,
+     and this file has no control over a theme stylesheet's load order. */
+  object-fit: contain !important;
+  margin: 0 auto;
+}
+
+.tryme-result-expand {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.tryme-result-expand:hover {
+  background: rgba(15, 23, 42, 0.9);
+}
+
+.tryme-result-tag {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.78);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.tryme-result-tag svg {
+  color: #fbbf24;
+}
+
+/* Button Group Stack */
+.tryme-button-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.tryme-primary-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 13px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--tryme-radius-btn, 12px);
+  background: #0f172a;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  text-decoration: none;
+  box-sizing: border-box;
+  box-shadow: var(--tryme-shadow-btn);
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  -webkit-font-smoothing: antialiased;
+}
+
+.tryme-primary-btn:hover:not(:disabled) {
+  background: #1e293b;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px -3px rgba(15, 23, 42, 0.28);
+}
+
+.tryme-primary-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.tryme-primary-btn:disabled {
+  background: #f1f5f9;
+  color: #94a3b8;
+  border: 1px solid #e2e8f0;
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.tryme-button-row {
+  display: flex;
+  gap: 10px;
+}
+
+.tryme-button-row .tryme-secondary-btn {
+  flex: 1;
+}
+
+.tryme-inline-status {
+  margin: -2px 0 0;
+  text-align: center;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.tryme-inline-status a {
+  color: #6366f1;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.tryme-inline-status a:hover {
+  text-decoration: underline;
+}
+
+.tryme-secondary-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 20px;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--tryme-radius-btn, 12px);
+  background: #ffffff;
+  color: #334155;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: all 0.15s ease;
+  -webkit-font-smoothing: antialiased;
+}
+
+.tryme-secondary-btn:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+.tryme-secondary-btn:active {
+  background: #f1f5f9;
+}
+
+.tryme-ghost-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 8px 16px;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: color 0.15s ease;
+}
+
+.tryme-ghost-btn:hover {
+  color: #0f172a;
+}
+
+/* Loading State — the shopper's own uploaded photo, dimmed, behind the
+   spinner (matches the Shopify widget's progress canvas) rather than a flat
+   blank card. isolation:isolate scopes the negative-z-index pseudo-elements
+   below to this box instead of letting them compete with page z-index. */
+.tryme-loading-photo {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  border-radius: var(--tryme-radius-card, 16px);
+  background: #09090b;
+  padding: 24px;
+  text-align: center;
+  margin-top: 4px;
+  /* Overridden inline by fitToAspectRatio() once the photo loads. */
+  aspect-ratio: 3 / 4;
+  max-height: 60dvh;
+}
+
+.tryme-loading-photo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-image: var(--tryme-loading-bg, none);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.tryme-loading-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: rgba(9, 9, 11, 0.6);
+}
+
+.tryme-loading-photo .tryme-loading-status,
+.tryme-loading-photo .tryme-loading-sub {
+  color: #ffffff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.tryme-spinner-wrap {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tryme-spinner-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 3px solid #e2e8f0;
+  border-top-color: #6366f1;
+  border-right-color: #8b5cf6;
+  animation: trymeSpin 0.9s cubic-bezier(0.5, 0.1, 0.5, 0.9) infinite;
+}
+
+.tryme-spinner-pulse {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(99, 102, 241, 0.12);
+  animation: trymePulse 1.6s ease-in-out infinite;
+}
+
+.tryme-loading-status {
+  margin: 20px 0 4px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.tryme-loading-sub {
+  margin: 0;
+  font-size: 13px;
+  color: #64748b;
+}
+
+/* Error State */
+.tryme-error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 16px 12px;
+  text-align: center;
+}
+
+.tryme-error-icon-wrap {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #fff1f2;
+  border: 1px solid #ffe4e6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  color: #e11d48;
+}
+
+.tryme-error-title {
+  margin: 0 0 6px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.tryme-error-desc {
+  margin: 0;
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.45;
+  max-width: 280px;
+}
+
+/* Animations */
+@keyframes trymeFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes trymeScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes trymeSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes trymePulse {
+  0%,
+  100% {
+    transform: scale(0.8);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+}

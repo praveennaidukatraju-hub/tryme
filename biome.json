@@ -1,0 +1,106 @@
+﻿{
+  "$schema": "https://biomejs.dev/schemas/2.4.16/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "ignoreUnknown": true,
+    "includes": [
+      "**",
+      "!**/migrations/*.sql",
+      "!**/meta/_journal.json",
+      "!twopiece.json",
+      "!templates",
+      "!pnpm-lock.yaml",
+      "!docs/*.html",
+      "!docs/multi-app-ecosystem/design-reference",
+      "!Logs-*.json",
+      "!Two-page design frames",
+      "!apps/saree_catalogue_android"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 100
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "style": {
+        "noNonNullAssertion": "warn",
+        "noDescendingSpecificity": "warn"
+      },
+      "suspicious": {
+        "noExplicitAny": "warn",
+        "noArrayIndexKey": "warn",
+        "noControlCharactersInRegex": "warn",
+        "noAssignInExpressions": "warn"
+      },
+      "security": {
+        "noDangerouslySetInnerHtml": "warn"
+      },
+      "correctness": {
+        "useExhaustiveDependencies": "warn"
+      },
+      "a11y": {
+        "useFocusableInteractive": "warn",
+        "noAutofocus": "warn"
+      },
+      "performance": {
+        "noImgElement": "warn"
+      }
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "trailingCommas": "all",
+      "semicolons": "always"
+    }
+  },
+  "assist": {
+    "enabled": true,
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
+  "overrides": [
+    {
+      "includes": ["apps/admin-web/**"],
+      "linter": {
+        "rules": {
+          "a11y": {
+            "useButtonType": "off",
+            "noLabelWithoutControl": "off",
+            "useKeyWithClickEvents": "off",
+            "useKeyWithMouseEvents": "off",
+            "noSvgWithoutTitle": "off",
+            "noStaticElementInteractions": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["apps/catalogues-web/**"],
+      "linter": {
+        "rules": {
+          "a11y": {
+            "noSvgWithoutTitle": "warn",
+            "useButtonType": "warn",
+            "noStaticElementInteractions": "warn",
+            "useKeyWithClickEvents": "warn",
+            "useKeyWithMouseEvents": "warn",
+            "noLabelWithoutControl": "warn"
+          }
+        }
+      }
+    }
+  ]
+}

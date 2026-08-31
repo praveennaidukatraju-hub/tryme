@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/uploadFragment">
+
+    <fragment
+        android:id="@+id/uploadFragment"
+        android:name="tryme.nice.trymeadmin.fragment.UploadVastraFragment"
+        android:label="Upload" />
+
+    <fragment
+        android:id="@+id/productsFragment"
+        android:name="tryme.nice.trymeadmin.fragment.VastraProductCategoryFragment"
+        android:label="Products" />
+
+    <fragment
+        android:id="@+id/contactFragment"
+        android:name="tryme.nice.trymeadmin.fragment.ContactFragment"
+        android:label="Contact" />
+</navigation>

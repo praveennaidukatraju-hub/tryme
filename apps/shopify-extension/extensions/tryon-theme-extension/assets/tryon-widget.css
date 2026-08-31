@@ -1,0 +1,1014 @@
+.tryme-tryon {
+  margin-bottom: 19px;
+}
+
+/* Bottom-right corner, nowhere near a theme's top nav bar to begin with. The
+   75dvh cap on .modal-content keeps it from ever growing tall enough to
+   reach the top of the viewport, and z-index is kept modest (not the old
+   9999) as a second safety net — if a theme's own sticky header ever did
+   overlap, it still wins the stacking conflict instead of this panel
+   covering it. */
+.tryme-tryon__modal {
+  position: fixed;
+  inset: auto 24px 24px auto;
+  z-index: 40;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.tryme-tryon__modal[hidden] {
+  display: none;
+}
+
+.tryme-tryon__modal-content {
+  position: relative;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  width: 400px;
+  height: 700px;
+  max-width: calc(100vw - 32px);
+  max-height: 75dvh;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* 'ready' and 'result' only (toggled in showStep) — the box shrinks/grows
+   with the photo actually being shown (see fitToPhotoAspectRatio in
+   tryon-widget.js) instead of a flat 700px. max-height above still caps it,
+   so a long History list scrolls (.modal-inner) rather than growing past
+   the viewport. */
+.tryme-tryon__modal-content--fit {
+  height: auto;
+  min-height: 420px;
+}
+
+/* History grid overrides --fit's auto height — a grid of many tiles has no
+   single photo aspect ratio to size around, so it gets a constant height
+   instead (see renderResultList/renderSingleResult in tryon-widget.js).
+   Compound selector so it wins over --fit regardless of class order. */
+.tryme-tryon__modal-content--fit.tryme-tryon__modal-content--history {
+  height: 70dvh;
+  min-height: 70dvh;
+}
+
+@media (max-width: 480px) {
+  .tryme-tryon__modal {
+    inset: auto 12px 12px 12px;
+  }
+
+  .tryme-tryon__modal-content {
+    width: 100%;
+  }
+}
+
+.tryme-tryon__modal-inner {
+  /* Without this, height:100% (content-box by default) plus this padding
+     makes the rendered box 58px taller than .modal-content actually has —
+     silently clipped by its overflow:hidden rather than scrolled, since the
+     box itself (not just its children) was the part overflowing. Invisible
+     while every step's content stayed comfortably short of the limit, but
+     exactly why the ready/result steps' bottom-most content (the legal
+     text) was getting cut off once a tall photo pushed content further down. */
+  box-sizing: border-box;
+  padding: 29px;
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.tryme-tryon__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 19px;
+}
+
+.tryme-tryon__heading {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.tryme-tryon__header-main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tryme-tryon__header-main[hidden] {
+  display: none;
+}
+
+.tryme-tryon__header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tryme-tryon__back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  color: #374151;
+  cursor: pointer;
+  padding: 0;
+}
+
+.tryme-tryon__back-btn:hover {
+  background: #f3f4f6;
+}
+
+.tryme-tryon__back-btn[hidden] {
+  display: none;
+}
+
+.tryme-tryon__history-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  color: #374151;
+  cursor: pointer;
+  padding: 0;
+}
+
+.tryme-tryon__history-btn:hover {
+  background: #f3f4f6;
+}
+
+.tryme-tryon__history-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.tryme-tryon__history-btn[hidden] {
+  display: none;
+}
+
+.tryme-tryon__history-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 3px;
+  border-radius: 999px;
+  background: var(--tryme-button-color, #000000);
+  color: var(--tryme-text-color, #ffffff);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 16px;
+  text-align: center;
+}
+
+.tryme-tryon__history-badge[hidden] {
+  display: none;
+}
+
+.tryme-tryon__close {
+  background: none;
+  border: none;
+  font-size: 29px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+}
+
+.tryme-tryon__page {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.tryme-tryon__page[hidden] {
+  display: none;
+}
+
+.tryme-tryon__result-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.tryme-tryon__result-card {
+  display: block;
+}
+
+.tryme-tryon__result-card + .tryme-tryon__result-card {
+  padding-top: 20px;
+  border-top: 1px solid rgba(17, 24, 39, 0.08);
+}
+
+/* History view: a 2-up scrollable gallery (see renderResultList in
+   tryon-widget.js). Tapping a tile opens the lightbox directly; Add to Cart,
+   Share and expand are quick actions on the tile itself. The result step
+   otherwise shows a single full-size card — see renderSingleResult. */
+.tryme-tryon__result-list--grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 12px;
+  row-gap: 24px;
+}
+
+.tryme-tryon__result-list--grid .tryme-tryon__result-card + .tryme-tryon__result-card {
+  padding-top: 0;
+  border-top: none;
+}
+
+/* Flush against the image instead of the base row's gap. */
+.tryme-tryon__result-card--compact .tryme-tryon__result-actions {
+  margin-top: 0;
+}
+
+.tryme-tryon__result-card--compact .tryme-tryon__add-to-cart {
+  padding: 7px 8px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.tryme-tryon__result-card--compact .tryme-tryon__share {
+  width: 32px;
+}
+
+.tryme-tryon__result-card--compact {
+  cursor: pointer;
+  border-radius: 12px;
+  transition: opacity 0.15s ease-in-out;
+}
+
+.tryme-tryon__result-card--compact:hover,
+.tryme-tryon__result-card--compact:focus-visible {
+  opacity: 0.85;
+}
+
+.tryme-tryon__result-card--compact:focus-visible {
+  outline: 2px solid var(--tryme-accent, var(--tryme-button-color, #000000));
+  outline-offset: 2px;
+}
+
+.tryme-tryon__result-empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  text-align: center;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.tryme-tryon__result-empty[hidden] {
+  display: none;
+}
+
+.tryme-tryon__upload-title {
+  margin: 0;
+  text-align: center;
+  font-size: 20px;
+  line-height: 1.25;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #111827;
+}
+
+.tryme-tryon__upload-lead {
+  max-width: 280px;
+  margin: 8px auto 18px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.tryme-tryon__avatar {
+  /* Grows to fill whatever vertical space the upload step's other content
+     (title, lead, button, legal) leaves behind, instead of a fixed size. */
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  margin: 0 0 20px;
+  overflow: hidden;
+  border-radius: 24px;
+  background: #f2f2f2;
+}
+
+.tryme-tryon__avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.tryme-tryon__avatar-image[hidden] {
+  display: none;
+}
+
+.tryme-tryon__button-stack {
+  display: grid;
+  gap: 12px;
+}
+
+.tryme-tryon__choose-btn {
+  position: relative;
+  width: 100%;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: 999px;
+  font-size: 13.5px;
+  cursor: pointer;
+  background: var(--tryme-accent, var(--tryme-button-color, #000000));
+  color: var(--tryme-text-color, #ffffff);
+  box-shadow: 0 7px 16px rgba(0, 0, 0, 0.15);
+}
+
+.tryme-tryon__choose-btn strong {
+  font-weight: 600;
+}
+
+.tryme-tryon__file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.tryme-tryon__legal {
+  margin: 8px 0 0;
+  text-align: center;
+  color: #6b7280;
+  font-size: 11px;
+  line-height: 1.5;
+  /* Never squeezed by the shrink algorithm — see .tryme-tryon__cta. */
+  flex-shrink: 0;
+  /* Pinned to exactly one line so its height is a known constant that
+     .tryme-tryon__ready-preview's max-height budget can rely on — a
+     merchant-configured legalText that wraps to 2-3 lines was eating into
+     that budget unpredictably, which is what still let tall images push
+     content past the modal's max-height on some screens. A long custom
+     legalText now truncates with an ellipsis instead of wrapping. */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tryme-tryon__step {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.tryme-tryon__step[hidden] {
+  display: none;
+}
+
+.tryme-tryon__step--upload {
+  justify-content: center;
+}
+
+.tryme-tryon__step--ready {
+  gap: 16px;
+}
+
+.tryme-tryon__step--progress {
+  justify-content: center;
+}
+
+.tryme-tryon__step--pending,
+.tryme-tryon__step--error {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 12px;
+}
+
+.tryme-tryon__error-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  /* #b42318 is this widget's one error red — also used by the email-gate
+     error, the cart error, and the reuse-expired note below. Not a custom
+     property: the modal is reparented to document.body in JS (escaping
+     .tryme-tryon's subtree), so a property scoped to that class wouldn't
+     reach it there. */
+  background: #fef3f2;
+  color: #b42318;
+}
+
+.tryme-tryon__step--pending p,
+.tryme-tryon__step--error p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #374151;
+}
+
+.tryme-tryon__ready-preview {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  /* A tall/portrait upload's aspect-ratio-driven height (see
+     fitToPhotoAspectRatio in tryon-widget.js) can ask for more room than the
+     step actually has. Capping this box directly is what actually protects
+     the CTA/legal text below it: 75dvh is .modal-content's own cap in --fit
+     mode, minus a fixed budget for everything else sharing that space
+     (modal padding, header, gap, CTA button, legal text) — object-fit:
+     contain on the image then just letterboxes within whatever height this
+     resolves to, rather than the box growing past it. */
+  max-height: calc(75dvh - 200px);
+  /* Flex items default to a content-based automatic minimum size, which for
+     a box sized by aspect-ratio is that ratio's own height — without this,
+     a tall photo can't shrink below it even when the modal (auto-height in
+     --fit mode) doesn't have room, pushing the CTA/legal text below out of
+     view instead of just letting the photo (already object-fit: contain)
+     scale down further. */
+  min-height: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #f9fafb;
+}
+
+/* width/height must be set here, not left to the tag's width/height attributes.
+   Those attributes exist only to satisfy theme-check's img-width-height rule and
+   carry a placeholder 1x1; with max-width/max-height alone the browser would size
+   this image from them and render a 1px dot. The parent .ready-preview is already
+   3/4 with overflow hidden, so filling it and letting object-fit letterbox is
+   equivalent to the intended max-* behaviour. */
+.tryme-tryon__ready-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.tryme-tryon__change-photo {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.95);
+  color: #374151;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 999px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+}
+
+.tryme-tryon__change-photo:hover {
+  background: #fff;
+}
+
+.tryme-tryon__cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  /* Never squeezed by the shrink algorithm — the photo above (min-height:0)
+     is what should give way when space is tight, not this button. */
+  flex-shrink: 0;
+  padding: 16px 24px;
+  border: none;
+  border-radius: 12px;
+  background: var(--tryme-accent, var(--tryme-button-color, #000000));
+  color: var(--tryme-text-color, #ffffff);
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+}
+
+.tryme-tryon__cta:hover {
+  filter: brightness(1.1);
+}
+
+.tryme-tryon__step--pending .tryme-tryon__retry,
+.tryme-tryon__step--error .tryme-tryon__retry {
+  background: var(--tryme-accent, var(--tryme-button-color, #000000));
+  color: var(--tryme-text-color, #ffffff);
+  appearance: none;
+  box-sizing: border-box;
+  margin: 12px 0 0;
+  padding: 12px 20px;
+  border: 0;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+}
+
+.tryme-tryon__progress-canvas {
+  position: relative;
+  /* Isolates a local stacking context so the two pseudo-elements' negative
+     z-index below stays scoped to this element instead of escaping to
+     compete with unrelated z-index values elsewhere on the page. */
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 19px;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  /* Sized to the shopper's own photo by fitToPhotoAspectRatio (see
+     confirmReady in tryon-widget.js) now that --fit applies to the progress
+     step too — this 3:4 is only the fallback before that inline style
+     lands. Capped so a tall/portrait upload can't ask for more room than
+     the modal has and push the spinner/text past its own edge — 75dvh is
+     .modal-content's cap in --fit mode, minus a budget for the header and
+     modal padding sharing that space (see the same reasoning on
+     .tryme-tryon__ready-preview). */
+  max-height: calc(75dvh - 120px);
+  min-height: 0;
+  border-radius: var(--tryme-border-radius, 4px);
+  background: #f2f2f2;
+  padding: 19px;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 500;
+  /* The photo behind now dominates (film below is a light touch, not a
+     wash), so text needs to read against a photo, not a flat #f2f2f2 —
+     white with a shadow holds up across light and dark regions of it. */
+  color: #fff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+
+/* The shopper's own uploaded photo, full clarity, behind the spinner/text
+   — set via --tryme-progress-bg-url (setProgressBackground() in
+   tryon-widget.js) rather than an <img> tag. No opacity here: fading the
+   image itself just blends it toward the canvas's #f2f2f2 background and
+   reads as washed-out gray. The darkening instead comes from ::after
+   below, a separate black scrim on top of the (still-crisp) photo — a
+   film over the image, not a faded/grayed-out image. */
+.tryme-tryon__progress-canvas::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-image: var(--tryme-progress-bg-url, none);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.tryme-tryon__progress-canvas::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.tryme-tryon__progress-message {
+  margin: 0;
+}
+
+.tryme-tryon__progress-rotator {
+  position: relative;
+  width: 100%;
+  min-height: 44px;
+}
+
+.tryme-tryon__progress-line {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  opacity: 0;
+  transform: scale(0.9);
+  transition:
+    opacity 0.6s ease-in-out,
+    transform 0.6s ease-in-out;
+  pointer-events: none;
+}
+
+.tryme-tryon__progress-line.is-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Scoped under the canvas parent (not a bare class selector) and with an
+   explicit `display` on purpose: Dawn's base.css ships
+   `div:empty { display: none }` (specificity 0,1,1), which silently wins
+   over a plain `.tryme-tryon__progress-spinner` (0,1,0) since this div
+   has no children/text and this rule never otherwise competed for the
+   `display` property. This is why the previous bar-fill animations never
+   rendered either — same theme rule, same empty-div shape. */
+.tryme-tryon__progress-canvas .tryme-tryon__progress-spinner {
+  display: block;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  /* White, not the merchant's accent/button color: this now sits on the
+     shopper's own photo rather than the flat #f2f2f2 canvas, and a dark
+     accent color (the common case — button_color defaults to black) would
+     have poor contrast against it. */
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  animation: tryme-progress-spin 0.9s linear infinite;
+}
+
+@keyframes tryme-progress-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.tryme-tryon__result-image-wrap {
+  position: relative;
+}
+
+.tryme-tryon__result-image {
+  /* img is inline by default, which reserves baseline descender space below
+     it and makes this block wrapper a few px taller than the image itself —
+     the expand button below (positioned against the wrapper) then sits
+     offset from the image's real bottom-right corner. display:block removes
+     that gap so the wrapper's height matches the image exactly. */
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  object-fit: contain;
+  background: #f2f2f2;
+  border-radius: 5px;
+}
+
+.tryme-tryon__expand {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  color: #111827;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.tryme-tryon__expand svg {
+  width: 16px;
+  height: 16px;
+}
+
+.tryme-tryon__expand:hover {
+  background: #f3f4f6;
+}
+
+/* Full-size result page only (see buildResultCard's actions:true branch) —
+   the History grid tile keeps its own Add to Cart as a text pill below the
+   image, so this overlay stays hidden there. */
+.tryme-tryon__add-to-cart-overlay {
+  display: none;
+}
+
+.tryme-tryon__result-card:not(.tryme-tryon__result-card--compact)
+  .tryme-tryon__add-to-cart-overlay {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  color: #111827;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.tryme-tryon__add-to-cart-overlay svg {
+  width: 16px;
+  height: 16px;
+}
+
+.tryme-tryon__add-to-cart-overlay:hover {
+  background: #f3f4f6;
+}
+
+.tryme-tryon__add-to-cart-overlay:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* Full-size result page only, same theme as the expand/cart overlays. The
+   History grid tile keeps its own Share button below the image. */
+.tryme-tryon__share-overlay {
+  display: none;
+}
+
+.tryme-tryon__result-card:not(.tryme-tryon__result-card--compact) .tryme-tryon__share-overlay {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  color: #111827;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.tryme-tryon__share-overlay svg {
+  width: 16px;
+  height: 16px;
+}
+
+.tryme-tryon__share-overlay:hover {
+  background: #f3f4f6;
+}
+
+/* Both Add to Cart and Share moved onto the image as overlays on the full
+   result page — nothing left in this row there, so it's hidden outright
+   rather than left as an empty strip still taking up margin/padding. The
+   History grid's compact card keeps both buttons in this row untouched. */
+.tryme-tryon__result-card:not(.tryme-tryon__result-card--compact) .tryme-tryon__result-actions {
+  display: none;
+}
+
+/* Full-size result page only, bottom-center over the image, same white
+   theme as the other overlays. Hidden on the History grid's compact tile. */
+.tryme-tryon__try-another {
+  display: none;
+}
+
+.tryme-tryon__result-card:not(.tryme-tryon__result-card--compact) .tryme-tryon__try-another {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  border: none;
+  border-radius: 999px;
+  background: #fff;
+  color: #111827;
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.tryme-tryon__try-another:hover {
+  background: #f3f4f6;
+}
+
+.tryme-tryon__lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 24px;
+}
+
+.tryme-tryon__lightbox[hidden] {
+  display: none;
+}
+
+.tryme-tryon__lightbox-frame {
+  position: relative;
+  display: flex;
+  background: #fff;
+  padding: 28px;
+  border-radius: 16px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+}
+
+/* width/height: auto (not left unset) overrides the tag's placeholder 1x1
+   attributes (present only to satisfy theme-check's img-width-height rule)
+   so the browser sizes from the loaded image's real dimensions instead of
+   rendering an invisible 1px dot — same root cause as
+   .tryme-tryon__ready-image above, different fix: that one fills a
+   fixed-aspect-ratio parent, but here percentage sizing can't be used at
+   all — .lightbox-frame's own height is auto (shrink-to-fit its padding +
+   this image), so a percentage on the image would resolve against an
+   indeterminate parent height and compute as none. Bounding directly off
+   the viewport instead sidesteps that: 104px is .lightbox's 24px padding
+   plus .lightbox-frame's 28px padding, doubled for both sides of each axis. */
+.tryme-tryon__lightbox-image {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: calc(100vw - 104px);
+  max-height: calc(100dvh - 104px);
+  border-radius: 8px;
+}
+
+/* Centered within the frame's 28px padding strip, clear of both the image
+   and the card's outer edge by 2px on either side (a 24px button in a 28px
+   strip) — no background of its own, just an icon resting on the card. */
+.tryme-tryon__lightbox-close {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: #6b7280;
+  border: none;
+  font-size: 17px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.tryme-tryon__lightbox-close svg {
+  width: 100%;
+  height: 100%;
+}
+
+.tryme-tryon__lightbox-close:hover {
+  color: #111827;
+}
+
+.tryme-tryon__promo {
+  margin: 0 0 10px;
+  font-size: 17px;
+}
+
+.tryme-tryon__button {
+  background: var(--tryme-button-color, #000000);
+  color: var(--tryme-text-color, #ffffff);
+  border: none;
+  border-radius: var(--tryme-border-radius, 4px);
+  padding: 12px 24px;
+  font-size: 17px;
+  cursor: pointer;
+}
+
+.tryme-tryon__reuse-expired-note {
+  margin: 0 0 10px;
+  font-size: 13px;
+  /* Matches .tryme-tryon__email-error / __cart-error / __error-icon —
+     one error red across the widget instead of each picking its own shade. */
+  color: #b42318;
+}
+
+.tryme-tryon__reuse-expired-note[hidden] {
+  display: none;
+}
+
+.tryme-tryon__email-input {
+  width: 100%;
+  padding: 12px 14px;
+  margin: 12px 0 10px;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  border-radius: var(--tryme-border-radius, 4px);
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+.tryme-tryon__email-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+  line-height: 1.4;
+  text-align: left;
+  margin-bottom: 12px;
+}
+
+.tryme-tryon__email-error {
+  color: #b42318;
+  font-size: 13px;
+  margin: 0 0 10px;
+}
+
+.tryme-tryon__email-submit {
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  border-radius: var(--tryme-border-radius, 4px);
+  background: var(--tryme-button-color, #000);
+  color: var(--tryme-text-color, #fff);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tryme-tryon__result-actions {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  margin-top: 14px;
+  padding-top: 8px;
+}
+
+.tryme-tryon__add-to-cart {
+  flex: 1;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 12px;
+  background: var(--tryme-accent, var(--tryme-button-color, #000000));
+  color: var(--tryme-text-color, #ffffff);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.tryme-tryon__add-to-cart:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.tryme-tryon__share {
+  flex: 0 0 auto;
+  width: 48px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #fff;
+  color: #111827;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tryme-tryon__cart-error {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: #b42318;
+}
+
+.tryme-tryon__share-flash {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 13px;
+  color: #667085;
+}
+
+.tryme-tryon__view-cart {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 14px;
+  text-decoration: underline;
+  color: #111827;
+}
+
+.tryme-tryon__share-flash[hidden],
+.tryme-tryon__view-cart[hidden] {
+  display: none;
+}

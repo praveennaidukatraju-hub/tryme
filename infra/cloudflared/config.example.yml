@@ -1,0 +1,25 @@
+# Copy to ~/.cloudflared/config.yml on the GPU worker VPS.
+# Replace TUNNEL-UUID with the UUID printed by: cloudflared tunnel create tryon-worker-a
+#
+# Without a custom domain, the tunnel hostname is:
+#   https://TUNNEL-UUID.cfargotunnel.com
+#
+# Once you have a domain on Cloudflare, run:
+#   cloudflared tunnel route dns tryon-worker-a worker-a.yourdomain.com
+# Then update the hostname field below.
+
+tunnel: TUNNEL-UUID
+credentials-file: /root/.cloudflared/TUNNEL-UUID.json
+
+ingress:
+  # Phase 2B (no domain): no hostname needed — tunnel UUID is the only entrypoint
+  # Phase 4+ (with domain): add hostname line before service
+  # - hostname: worker-a.yourdomain.com
+  - service: http://localhost:8000
+    originRequest:
+      connectTimeout: 10s
+
+  - service: http_status:404
+
+loglevel: info
+transport-loglevel: warn

@@ -1,0 +1,3 @@
+package tryme.nice.trymeadmin.viewmodels
+import androidx.recyclerview.widget.DiffUtil
+class DiffMerchantCatalogItemCallback : DiffUtil.ItemCallback<MerchantCatalogItem>() { override fun areItemsTheSame(oldItem: MerchantCatalogItem, newItem: MerchantCatalogItem) = oldItem.id == newItem.id; override fun areContentsTheSame(oldItem: MerchantCatalogItem, newItem: MerchantCatalogItem) = oldItem == newItem }

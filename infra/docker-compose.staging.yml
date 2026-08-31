@@ -1,0 +1,254 @@
+name: tryme-staging
+
+# Staging mirror of docker-compose.prod.yml. Runs on the SAME VPS as prod, so every
+# host-visible identifier is namespaced: project name, container names, network, and
+# host ports (prod + 100). Named volumes are Compose-namespaced by project, so
+# `pgdata` here materialises as `tryme-staging_pgdata` and cannot collide with
+# prod's `tryme-prod_pgdata`.
+#
+# Env file lives at the repo root of the STAGING clone as .env.staging (git-ignored,
+# created manually on the VPS). See .env.staging.example.
+#
+# CloudPanel NGINX reverse proxies:
+#   staging-app.tryme.com/         -> localhost:3100  (Next.js web)
+#   staging-app.tryme.com/v1/      -> localhost:4100  (Fastify API)
+#   staging-app.tryme.com/minio/   -> localhost:9100  (MinIO pass-through)
+#   staging-admin.tryme.com/       -> localhost:3101  (Admin SPA)
+#   staging-admin.tryme.com/admin/ -> localhost:4100  (Fastify API)
+#   staging-admin.tryme.com/v1/    -> localhost:4100  (Fastify API)
+#   staging-admin.tryme.com/shopify-admin -> localhost:3103
+#   staging-app.tryme.com/chatbot/   -> localhost:4300  (prefix stripped, WS upgrade)
+#   staging-admin.tryme.com/chatbot/ -> localhost:4300  (prefix stripped, WS upgrade)
+# The chatbot has no subdomain of its own; it is mounted on a path under both
+# vhosts so the web app and admin SPA each reach it same-origin.
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: tryme-staging-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - tryme-staging-net
+
+  redis:
+    image: redis:7-alpine
+    container_name: tryme-staging-redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes", "--maxmemory-policy", "noeviction"]
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - tryme-staging-net
+
+  minio:
+    image: minio/minio:latest
+    container_name: tryme-staging-minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    ports:
+      # 9100 bound to host so CloudPanel NGINX can proxy /minio/ and so the sync
+      # script can reach this MinIO from the host with a second mc alias.
+      - "127.0.0.1:9100:9000"
+      - "127.0.0.1:9101:9001"
+    volumes:
+      - miniodata:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - tryme-staging-net
+
+  minio-bootstrap:
+    image: minio/mc:latest
+    container_name: tryme-staging-minio-bootstrap
+    restart: "no"
+    depends_on:
+      minio:
+        condition: service_healthy
+    # mc anonymous set download here is deliberate and staging-specific: prod's
+    # equivalent line was removed as SEC-H3 (world-readable bucket), but that
+    # only stops a NEWLY created bucket from getting the public policy — prod's
+    # own bucket predates the removal and is still public today, grandfathered.
+    # Every publicUrl()-based image (models, faces, backgrounds, catalog
+    # thumbnails — see apps/api/src/modules/*/routes.ts) relies on this. Without
+    # it, a fresh staging bucket 404s on every one of those images. See
+    # docs/audits/open-findings.md SEC-H3 for the full picture and what a real
+    # fix would require.
+    entrypoint: >
+      /bin/sh -c "
+      mc alias set local http://minio:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD} &&
+      mc mb --ignore-existing local/${R2_BUCKET} &&
+      mc anonymous set download local/${R2_BUCKET} &&
+      mc admin config set local api cors_allow_origin='*' &&
+      mc admin service restart local &&
+      echo 'minio bucket ready: ${R2_BUCKET}'
+      "
+    networks:
+      - tryme-staging-net
+
+  api:
+    build:
+      context: ..
+      dockerfile: apps/api/Dockerfile
+    container_name: tryme-staging-api
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:4100:4000"
+    volumes:
+      - ../.env.staging:/app/.env:ro
+    command: >
+      sh -c "
+        cd /app/packages/db && pnpm migrate &&
+        pnpm --filter @tryme/api start
+      "
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    networks:
+      - tryme-staging-net
+
+  chatbot:
+    build:
+      context: ..
+      dockerfile: apps/chatbot/Dockerfile
+    container_name: tryme-staging-chatbot
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:4300:4200"
+    volumes:
+      - ../.env.staging:/app/.env:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - tryme-staging-net
+
+  dispatcher:
+    build:
+      context: ..
+      dockerfile: apps/dispatcher/Dockerfile
+    container_name: tryme-staging-dispatcher
+    restart: unless-stopped
+    env_file:
+      - ../.env.staging
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    networks:
+      - tryme-staging-net
+
+  web:
+    build:
+      context: ..
+      dockerfile: apps/catalogues-web/Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+        NEXT_PUBLIC_BASE_PATH: ${NEXT_PUBLIC_BASE_PATH:-}
+        NEXT_PUBLIC_CHATBOT_URL: ${NEXT_PUBLIC_CHATBOT_URL}
+    container_name: tryme-staging-web
+    restart: unless-stopped
+    environment:
+      NEXT_PUBLIC_BASE_PATH: ${NEXT_PUBLIC_BASE_PATH:-}
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+    ports:
+      - "127.0.0.1:3100:3000"
+    networks:
+      - tryme-staging-net
+
+  admin:
+    build:
+      context: ..
+      dockerfile: apps/admin-web/Dockerfile
+      args:
+        VITE_CHATBOT_URL: ${VITE_CHATBOT_URL}
+    container_name: tryme-staging-admin
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3101:80"
+    networks:
+      - tryme-staging-net
+
+  shopify-admin:
+    build:
+      context: ..
+      dockerfile: apps/shopify/Dockerfile
+      args:
+        VITE_SHOPIFY_API_KEY: ${VITE_SHOPIFY_API_KEY}
+        VITE_TRYME_APP_URL: ${VITE_TRYME_APP_URL:-https://staging-app.tryme.com}
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-https://staging-app.tryme.com}
+    container_name: tryme-staging-shopify-admin
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3103:80"
+    networks:
+      - tryme-staging-net
+
+  alloy:
+    image: grafana/alloy:latest
+    container_name: tryme-staging-alloy
+    restart: unless-stopped
+    command:
+      - run
+      - --server.http.listen-addr=0.0.0.0:12345
+      - --storage.path=/var/lib/alloy/data
+      - /etc/alloy/config.alloy
+    environment:
+      # Scopes log/metric discovery to this stack only. Prod's Alloy sets the
+      # matching /tryme-prod-.* filter. Both read the same Docker socket.
+      ALLOY_CONTAINER_REGEX: /tryme-staging-.*
+      GRAFANA_CLOUD_LOKI_URL: ${GRAFANA_CLOUD_LOKI_URL}
+      GRAFANA_CLOUD_LOKI_USER: ${GRAFANA_CLOUD_LOKI_USER}
+      GRAFANA_CLOUD_PROM_URL: ${GRAFANA_CLOUD_PROM_URL}
+      GRAFANA_CLOUD_PROM_USER: ${GRAFANA_CLOUD_PROM_USER}
+      GRAFANA_CLOUD_API_KEY: ${GRAFANA_CLOUD_API_KEY}
+    volumes:
+      - ./observability/alloy.alloy:/etc/alloy/config.alloy:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - alloydata:/var/lib/alloy/data
+    depends_on:
+      - api
+      - dispatcher
+      - chatbot
+    networks:
+      - tryme-staging-net
+
+volumes:
+  pgdata:
+  redisdata:
+  miniodata:
+  alloydata:
+
+networks:
+  tryme-staging-net:
+    driver: bridge

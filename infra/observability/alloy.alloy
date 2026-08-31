@@ -1,0 +1,117 @@
+// Grafana Alloy agent for Tryme (hybrid observability).
+//
+// Ships to Grafana Cloud free tier:
+//   - container logs (pino JSON on stdout)  → Loki
+//   - app metrics (api + dispatcher /metrics) → Prometheus
+//
+// Secrets come from the container environment (see infra/docker-compose.prod.yml,
+// values in .env.production). Reachable backends only — Alloy itself exposes nothing
+// publicly. See docs/observability.md.
+
+// ── Logs: discover tryme containers, tail stdout, ship to Loki ─────────────
+
+discovery.docker "tryme" {
+  host = "unix:///var/run/docker.sock"
+}
+
+// Keep only this stack's containers and derive a clean `service` label from the
+// container name. Matches prod (tryme-prod-api), staging (tryme-staging-api)
+// and local (tryme-api), stripping the optional environment segment so `service`
+// is just `api`, `dispatcher`, …
+//
+// ALLOY_CONTAINER_REGEX scopes the keep rule to a single stack. Prod and staging run
+// on the same host and share this Docker socket, so without it each environment's
+// Alloy would ingest the other's containers. The default preserves the local
+// docker-compose.yml stack, whose containers have no environment segment.
+discovery.relabel "tryme" {
+  targets = discovery.docker.tryme.targets
+
+  rule {
+    source_labels = ["__meta_docker_container_name"]
+    regex         = "/(tryme-.*)"
+    target_label  = "container"
+  }
+
+  rule {
+    source_labels = ["__meta_docker_container_name"]
+    regex         = "/tryme-(?:prod-|staging-)?(.*)"
+    target_label  = "service"
+  }
+
+  // Drop containers that are not part of this stack.
+  rule {
+    source_labels = ["__meta_docker_container_name"]
+    regex         = coalesce(sys.env("ALLOY_CONTAINER_REGEX"), "/tryme-.*")
+    action        = "keep"
+  }
+}
+
+loki.source.docker "tryme" {
+  host       = "unix:///var/run/docker.sock"
+  targets    = discovery.relabel.tryme.output
+  labels     = { job = "tryme" }
+  forward_to = [loki.process.tryme.receiver]
+}
+
+// Parse the pino JSON line so level/jobId/userId become queryable.
+loki.process "tryme" {
+  forward_to = [loki.write.grafana_cloud.receiver]
+
+  stage.json {
+    expressions = {
+      level   = "level",
+      svc     = "service",
+      job_id  = "jobId",
+      user_id = "userId",
+    }
+  }
+
+  // Promote a small, low-cardinality set to labels. jobId/userId stay as parsed
+  // fields (structured metadata) to avoid label explosion.
+  stage.labels {
+    values = {
+      level = "level",
+    }
+  }
+
+  stage.structured_metadata {
+    values = {
+      jobId  = "job_id",
+      userId = "user_id",
+    }
+  }
+}
+
+loki.write "grafana_cloud" {
+  endpoint {
+    url = sys.env("GRAFANA_CLOUD_LOKI_URL")
+    basic_auth {
+      username = sys.env("GRAFANA_CLOUD_LOKI_USER")
+      password = sys.env("GRAFANA_CLOUD_API_KEY")
+    }
+  }
+}
+
+// ── Metrics: scrape app /metrics endpoints, remote_write to Prometheus ────────
+
+// Scrape targets default to the prod container service names. Override via env for
+// local testing where the apps run on the host (e.g. host.docker.internal:4000).
+prometheus.scrape "tryme" {
+  targets = [
+    { __address__ = coalesce(sys.env("ALLOY_API_TARGET"), "api:4000"),               service = "api" },
+    { __address__ = coalesce(sys.env("ALLOY_DISPATCHER_TARGET"), "dispatcher:4100"), service = "dispatcher" },
+  ]
+  metrics_path    = "/metrics"
+  scrape_interval = "15s"
+  forward_to      = [prometheus.remote_write.grafana_cloud.receiver]
+}
+
+prometheus.remote_write "grafana_cloud" {
+  endpoint {
+    url = sys.env("GRAFANA_CLOUD_PROM_URL")
+    basic_auth {
+      username = sys.env("GRAFANA_CLOUD_PROM_USER")
+      password = sys.env("GRAFANA_CLOUD_API_KEY")
+    }
+  }
+}

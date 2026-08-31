@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "targets": [
+    {
+      "name": "web",
+      "dir": "apps/catalogues-web",
+      "packageName": "@tryme/web",
+      "dockerfile": "apps/catalogues-web/Dockerfile",
+      "composeService": "web"
+    },
+    {
+      "name": "admin",
+      "dir": "apps/admin-web",
+      "packageName": "@tryme/admin",
+      "dockerfile": "apps/admin-web/Dockerfile",
+      "composeService": "admin"
+    },
+    {
+      "name": "shopify-admin",
+      "dir": "apps/shopify",
+      "packageName": "@tryme/shopify-admin",
+      "dockerfile": "apps/shopify/Dockerfile",
+      "composeService": "shopify-admin"
+    },
+    {
+      "name": "api",
+      "dir": "apps/api",
+      "packageName": "@tryme/api",
+      "dockerfile": "apps/api/Dockerfile",
+      "composeService": "api"
+    },
+    {
+      "name": "chatbot",
+      "dir": "apps/chatbot",
+      "packageName": "@tryme/chatbot",
+      "dockerfile": "apps/chatbot/Dockerfile",
+      "composeService": "chatbot"
+    },
+    {
+      "name": "dispatcher",
+      "dir": "apps/dispatcher",
+      "packageName": "@tryme/dispatcher",
+      "dockerfile": "apps/dispatcher/Dockerfile",
+      "composeService": "dispatcher"
+    }
+  ],
+  "separateSurfaces": [
+    {
+      "dir": "apps/shopify-extension",
+      "reason": "Shopify theme extension; published through the Shopify CLI, not a container image"
+    },
+    {
+      "dir": "apps/virtual-tryon-mobile&kiosk_latest",
+      "reason": "mobile/kiosk client; separate release surface"
+    },
+    {
+      "dir": "apps/saree_catalogue_android",
+      "reason": "native Gradle/Kotlin Android app; no package.json, not a pnpm workspace member, published through its own Android build"
+    }
+  ],
+  "testablePackages": ["@tryme/api", "@tryme/dispatcher"],
+  "docsPaths": ["docs/**", "*.md", "LICENSE"],
+  "ciPaths": [".github/**", "config/ci-targets.json", "scripts/ci/**", "vitest.config.ts"],
+  "infraPaths": ["infra/**"],
+  "deploymentBundlePaths": ["Makefile", ".env.production.example", ".env.example"],
+  "globalRebuildPaths": [
+    "pnpm-lock.yaml",
+    "pnpm-workspace.yaml",
+    "package.json",
+    ".npmrc",
+    "biome.json",
+    "tsconfig.base.json",
+    ".dockerignore",
+    "lefthook.yml"
+  ]
+}

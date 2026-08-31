@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Ai Vastra 3D</string>
+    <string name="login">Log In</string>
+    <string name="forget_password">Forget Password?</string>
+
+    <string name="uploading_your_product">Uploading your Product please wait a moment...</string>
+    <string name="cancel">Cancel</string>
+    <string name="upload">Upload</string>
+    <string name="please_install_a_webbrowser">No application can handle this request.Please install a webbrowser</string>
+    <string name="no_product_found">No Product Found</string>
+    <string name="logout">Logout</string>
+    <string name="ok">ok\n</string>
+    <string name="alert_logout">Do you really want to log out from your account?</string>
+    <string name="discard_upload">Discard Upload</string>
+    <string name="discard_upload_alert">If you discard now, your uploaded image and details will be lost. discard?</string>
+    <string name="stay">Stay</string>
+    <string name="discard">Discard</string>
+
+
+</resources>

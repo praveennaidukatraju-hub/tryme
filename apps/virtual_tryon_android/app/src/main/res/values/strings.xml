@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Ai Vastra</string>
+
+    <!-- OAuth 2.0 "Web application" client ID (Google Cloud Console), used as the
+         Credential Manager / Google Identity Services server client id so the ID token's
+         audience matches what the backend verifies against. -->
+    <string name="default_web_client_id" translatable="false">35415564946-g67lkjr3oso891lovqjaffqfd3gbhllq.apps.googleusercontent.com</string>
+</resources>

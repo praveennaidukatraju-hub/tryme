@@ -1,0 +1,291 @@
+{% comment %}
+  Renders a "Try It On" button + upload modal for the current product.
+
+  App BLOCK (not an app embed): the merchant drags this into their product
+  template in the theme editor, so it renders exactly where they put it. That
+  is why there is no placement setting and no placement JS — the
+  previous app-embed version injected at the end of <body> and then had to
+  relocate itself through a chain of guessed CSS selectors, which broke every
+  time a merchant switched themes.
+
+  App blocks require an Online Store 2.0 (JSON) template. Vintage themes cannot
+  accept them and are unsupported.
+
+  `enabled_on.templates` pins this to product templates: `product` is blank
+  everywhere else, so the guard below would render nothing anyway, and the
+  block would just be dead weight in the theme editor's picker.
+{% endcomment %}
+
+{%- assign widget_key = shop.metafields.tryme.widget_key -%}
+{%- assign cfg = shop.metafields.tryme.widget_config.value -%}
+{%- if product != blank and widget_key != blank -%}
+  <div
+    class="tryme-tryon"
+    data-widget-key="{{ widget_key }}"
+    data-product-id="{{ product.id }}"
+    data-product-title="{{ product.title | escape }}"
+    data-product-url="{{ product.url }}"
+    data-product-image="{% if product.featured_image %}{{ product.featured_image | image_url: width: 200 }}{% endif %}"
+    {%- if customer -%}
+      data-customer-id="{{ customer.id }}"
+      data-customer-email="{{ customer.email }}"
+    {%- endif -%}
+    data-api-base="{{ block.settings.api_base | default: 'https://app.tryme.com' | escape }}"
+    style="--tryme-button-color: {{ block.settings.button_color }}; --tryme-text-color: {{ block.settings.text_color }}; --tryme-border-radius: {{ block.settings.border_radius }}px;{% if cfg.theme.accentColor %} --tryme-accent: {{ cfg.theme.accentColor | escape }};{% endif %}"
+  >
+    {%- if block.settings.promo_text != blank -%}
+      <p class="tryme-tryon__promo">{{ block.settings.promo_text | escape }}</p>
+    {%- endif -%}
+
+    <button type="button" class="tryme-tryon__button">
+      {{ block.settings.button_text | default: 'Try It On' | escape }}
+    </button>
+
+    <div class="tryme-tryon__modal" hidden>
+      <div class="tryme-tryon__modal-content">
+        <div class="tryme-tryon__modal-inner">
+          <div class="tryme-tryon__header">
+            <div class="tryme-tryon__header-main">
+              <button type="button" class="tryme-tryon__back-btn" aria-label="Back" hidden>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+              </button>
+              <div>
+                <p class="tryme-tryon__heading">{{ cfg.copy.heading | default: 'Try It On' | escape }}</p>
+              </div>
+            </div>
+            <div class="tryme-tryon__header-actions">
+              <button type="button" class="tryme-tryon__history-btn" aria-label="View your try-ons" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-images-icon lucide-images"><path d="m22 11-1.296-1.296a2.4 2.4 0 0 0-3.408 0L11 16"/><path d="M4 8a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2"/><circle cx="13" cy="7" r="1" fill="currentColor"/><rect x="8" y="2" width="14" height="14" rx="2"/></svg>
+                <span class="tryme-tryon__history-badge" hidden>0</span>
+              </button>
+              <button type="button" class="tryme-tryon__close" aria-label="Close">&times;</button>
+            </div>
+          </div>
+
+          <div class="tryme-tryon__page tryme-tryon__page--main">
+            <div class="tryme-tryon__step tryme-tryon__step--upload">
+              <p class="tryme-tryon__upload-lead">
+                {{ cfg.copy.uploadLead | default: 'Upload your photo and see how it looks on you instantly' | escape }}
+              </p>
+
+              <div class="tryme-tryon__avatar">
+                <img class="tryme-tryon__avatar-image" alt="" width="1" height="1" referrerpolicy="no-referrer" hidden />
+              </div>
+
+              <p class="tryme-tryon__reuse-expired-note" hidden>
+                Your previous photo expired — please upload a new one.
+              </p>
+
+              <div class="tryme-tryon__button-stack">
+                <label class="tryme-tryon__choose-btn">
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                  <strong>{{ cfg.copy.chooseLabel | default: 'Choose Your Photo' | escape }}</strong>
+                  <input type="file" accept="image/*" class="tryme-tryon__file-input" />
+                </label>
+              </div>
+
+              <p class="tryme-tryon__legal">{{ cfg.copy.legalText | default: 'By using this Try-On option, you agree to our T&C.' | escape }}</p>
+            </div>
+
+            <div class="tryme-tryon__step tryme-tryon__step--ready" hidden>
+              <div class="tryme-tryon__ready-preview">
+                <img class="tryme-tryon__ready-image" alt="" width="1" height="1" referrerpolicy="no-referrer" />
+                <button type="button" class="tryme-tryon__change-photo">Change Photo</button>
+              </div>
+              <button type="button" class="tryme-tryon__cta">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"/><path d="M20 2v4"/><path d="M22 4h-4"/><circle cx="4" cy="20" r="2"/></svg>
+                <span>{{ cfg.copy.ctaLabel | default: 'Start Try-On' | escape }}</span>
+              </button>
+              <p class="tryme-tryon__legal">{{ cfg.copy.legalText | default: 'By using this Try-On option, you agree to our T&C.' | escape }}</p>
+            </div>
+
+            <div class="tryme-tryon__step tryme-tryon__step--email" hidden>
+              <h2 class="tryme-tryon__upload-title">One quick thing</h2>
+              <p class="tryme-tryon__upload-lead tryme-tryon__email-lead">
+                Enter your email to continue.
+              </p>
+              <input
+                type="email"
+                class="tryme-tryon__email-input"
+                placeholder="you@example.com"
+                autocomplete="email"
+                required
+              />
+              <label class="tryme-tryon__email-consent">
+                <input type="checkbox" class="tryme-tryon__email-consent-input" />
+                <span>Email me offers and updates from this store.</span>
+              </label>
+              <p class="tryme-tryon__email-error" hidden></p>
+              <button type="button" class="tryme-tryon__email-submit">Continue</button>
+            </div>
+
+            <div class="tryme-tryon__step tryme-tryon__step--progress" hidden>
+              <div class="tryme-tryon__progress-canvas">
+                <div class="tryme-tryon__progress-spinner" aria-hidden="true"></div>
+                {%- if cfg.copy.generatingText != blank -%}
+                  <p class="tryme-tryon__progress-message">{{ cfg.copy.generatingText | escape }}</p>
+                {%- else -%}
+                  <div class="tryme-tryon__progress-rotator" aria-live="polite">
+                    <p class="tryme-tryon__progress-line is-active">Creating your try-on…</p>
+                    <p class="tryme-tryon__progress-line">Getting the fit just right…</p>
+                    <p class="tryme-tryon__progress-line">Working on the details…</p>
+                    <p class="tryme-tryon__progress-line">Almost there…</p>
+                  </div>
+                {%- endif -%}
+              </div>
+            </div>
+
+            <div class="tryme-tryon__step tryme-tryon__step--pending" hidden>
+              <p>{{ 'tryon.pending' | t }}</p>
+              <button type="button" class="tryme-tryon__retry">
+                {{ 'tryon.try_again' | t }}
+              </button>
+            </div>
+
+            <div class="tryme-tryon__step tryme-tryon__step--result" hidden>
+              <div class="tryme-tryon__result-list"></div>
+              <p class="tryme-tryon__result-empty" hidden>
+                No try-ons yet — results you generate will show up here.
+              </p>
+            </div>
+
+            <div class="tryme-tryon__step tryme-tryon__step--error" hidden>
+              <div class="tryme-tryon__error-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+              </div>
+              {%- comment -%}
+                data-custom marks whether the merchant actually configured
+                errorText (vs. Liquid's own `| default:` filling in the
+                placeholder) — tryon-widget.js only honors this text as its
+                last-resort fallback when a merchant deliberately set it;
+                every specific, curated message (bad photo, rate limited,
+                generation failed, timed out) still wins over it either way.
+              {%- endcomment -%}
+              <p data-custom="{% if cfg.copy.errorText != blank %}true{% endif %}">{{ cfg.copy.errorText | default: 'Something went wrong. Please try again.' | escape }}</p>
+              <button type="button" class="tryme-tryon__retry">
+                {{ 'tryon.try_again' | t }}
+              </button>
+            </div>
+          </div>
+
+          <template class="tryme-tryon__result-card-template">
+            <div class="tryme-tryon__result-card">
+              <div class="tryme-tryon__result-image-wrap">
+                <img class="tryme-tryon__result-image" alt="{{ 'tryon.result_alt' | t }}" width="1" height="1" referrerpolicy="no-referrer" />
+                {%- unless cfg.behavior.addToCart == false -%}
+                  <button
+                    type="button"
+                    class="tryme-tryon__add-to-cart-overlay"
+                    aria-label="{{ cfg.behavior.addToCartLabel | default: 'Add to Cart' | escape }}"
+                    data-default-variant-id="{{ product.selected_or_first_available_variant.id }}"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M200-80q-33 0-56.5-23.5T120-160v-480q0-33 23.5-56.5T200-720h80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720h80q33 0 56.5 23.5T840-640v480q0 33-23.5 56.5T760-80H200Zm0-80h560v-480H200v480Zm421.5-298.5Q680-517 680-600h-80q0 50-35 85t-85 35q-50 0-85-35t-35-85h-80q0 83 58.5 141.5T480-400q83 0 141.5-58.5ZM360-720h240q0-50-35-85t-85-35q-50 0-85 35t-35 85ZM200-160v-480 480Z"/></svg>
+                  </button>
+                {%- endunless -%}
+                <button type="button" class="tryme-tryon__expand" aria-label="View full size">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+                </button>
+                {%- unless cfg.behavior.share == false -%}
+                  <button
+                    type="button"
+                    class="tryme-tryon__share-overlay"
+                    aria-label="{{ cfg.behavior.shareLabel | default: 'Share' | escape }}"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="2.2"/><circle cx="6" cy="12" r="2.2"/><circle cx="18" cy="19" r="2.2"/><path d="m8 11 7.8-4.6M8 13l7.8 4.6"/></svg>
+                  </button>
+                {%- endunless -%}
+                <button type="button" class="tryme-tryon__try-another">Change Photo</button>
+              </div>
+
+              <div class="tryme-tryon__result-actions">
+                {%- unless cfg.behavior.addToCart == false -%}
+                  <button
+                    type="button"
+                    class="tryme-tryon__add-to-cart"
+                    data-default-variant-id="{{ product.selected_or_first_available_variant.id }}"
+                  >
+                    {{ cfg.behavior.addToCartLabel | default: 'Add to Cart' | escape }}
+                  </button>
+                {%- endunless -%}
+                {%- unless cfg.behavior.share == false -%}
+                  <button
+                    type="button"
+                    class="tryme-tryon__share"
+                    aria-label="{{ cfg.behavior.shareLabel | default: 'Share' | escape }}"
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="2.2"/><circle cx="6" cy="12" r="2.2"/><circle cx="18" cy="19" r="2.2"/><path d="m8 11 7.8-4.6M8 13l7.8 4.6"/></svg>
+                  </button>
+                {%- endunless -%}
+              </div>
+
+              <p class="tryme-tryon__cart-error" hidden></p>
+              <span class="tryme-tryon__share-flash" hidden></span>
+              <a class="tryme-tryon__view-cart" href="{{ routes.cart_url }}" hidden>View cart</a>
+            </div>
+          </template>
+        </div>
+      </div>
+    </div>
+
+    <div class="tryme-tryon__lightbox" hidden>
+      <div class="tryme-tryon__lightbox-frame">
+        <img class="tryme-tryon__lightbox-image" alt="{{ 'tryon.result_alt' | t }}" width="1" height="1" referrerpolicy="no-referrer" />
+        <button type="button" class="tryme-tryon__lightbox-close" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="currentColor"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  {{ 'tryon-widget.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'tryon-widget.js' | asset_url }}" defer></script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Try It On",
+  "target": "section",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    {
+      "type": "text",
+      "id": "api_base",
+      "label": "API base URL",
+      "default": "https://app.tryme.com"
+    },
+    {
+      "type": "text",
+      "id": "promo_text",
+      "label": "Promotional text above button"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Try It On"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 4
+    }
+  ]
+}
+{% endschema %}

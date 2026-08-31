@@ -1,0 +1,254 @@
+name: tryme-prod
+
+# Env file lives at repo root as .env.production (git-ignored, created manually on VPS)
+# CloudPanel NGINX reverse proxies:
+#   app.tryme.com/         -> localhost:3000  (Next.js web)
+#   app.tryme.com/v1/      -> localhost:4000  (Fastify API)
+#   app.tryme.com/minio/   -> localhost:9000  (MinIO pass-through for presigned URLs)
+#   admin.tryme.com/       -> localhost:3001  (Admin SPA)
+#   admin.tryme.com/admin/ -> localhost:4000  (Fastify API)
+#   admin.tryme.com/v1/    -> localhost:4000  (Fastify API)
+#   (merchant portal service is dropped below — no subdomain provisioned yet;
+#    re-add the `merchant` service block + this route comment when needed)
+#   chatbot.tryme.com/     -> localhost:4200  (Chatbot WS/HTTP — needs a WebSocket-upgrade
+#                                                 proxy vhost, since it's a separate subdomain
+#                                                 from the CHATBOT_URL example placeholder;
+#                                                 adjust .env.production's CHATBOT_URL/
+#                                                 NEXT_PUBLIC_CHATBOT_URL/VITE_CHATBOT_URL to
+#                                                 match whatever domain you actually provision)
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: tryme-prod-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - tryme-net
+
+  redis:
+    image: redis:7-alpine
+    container_name: tryme-prod-redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes", "--maxmemory-policy", "noeviction"]
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - tryme-net
+
+  minio:
+    image: minio/minio:latest
+    container_name: tryme-prod-minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    ports:
+      # 9000 bound to host so CloudPanel NGINX can proxy /minio/ prefix
+      - "127.0.0.1:9000:9000"
+      # 9001 console — access via SSH tunnel only; do NOT expose publicly
+      - "127.0.0.1:9001:9001"
+    volumes:
+      - miniodata:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - tryme-net
+
+  minio-bootstrap:
+    image: minio/mc:latest
+    container_name: tryme-prod-minio-bootstrap
+    restart: "no"
+    depends_on:
+      minio:
+        condition: service_healthy
+    # Per-bucket CORS-XML (`mc cors set`) is dead on this MinIO server version —
+    # it returns an empty body instead of the XML the older mc client expects
+    # ("decoding xml: EOF"), silently no-op'ing every deploy. The actual
+    # mechanism serving CORS in prod is the server-wide `api cors_allow_origin`
+    # config, previously set by hand and never declared anywhere — this makes
+    # it explicit and idempotent instead of an undocumented one-off.
+    entrypoint: >
+      /bin/sh -c "
+      mc alias set local http://minio:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD} &&
+      mc mb --ignore-existing local/${R2_BUCKET} &&
+      mc admin config set local api cors_allow_origin='*' &&
+      mc admin service restart local &&
+      echo 'minio bucket ready: ${R2_BUCKET}'
+      "
+    networks:
+      - tryme-net
+
+  api:
+    build:
+      context: ..
+      dockerfile: apps/api/Dockerfile
+    container_name: tryme-prod-api
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:4000:4000"
+    # Mount .env.production as /app/.env so `node --env-file=../../.env` resolves it
+    volumes:
+      - ../.env.production:/app/.env:ro
+    # Run DB migrations before starting API
+    command: >
+      sh -c "
+        cd /app/packages/db && pnpm migrate &&
+        pnpm --filter @tryme/api start
+      "
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    networks:
+      - tryme-net
+
+  chatbot:
+    build:
+      context: ..
+      dockerfile: apps/chatbot/Dockerfile
+    container_name: tryme-prod-chatbot
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:4200:4200"
+    # Mount .env.production as /app/.env so `node --env-file=../../.env` resolves it
+    volumes:
+      - ../.env.production:/app/.env:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - tryme-net
+
+  dispatcher:
+    build:
+      context: ..
+      dockerfile: apps/dispatcher/Dockerfile
+    container_name: tryme-prod-dispatcher
+    restart: unless-stopped
+    # Dispatcher uses process.env directly (no --env-file in its CMD)
+    env_file:
+      - ../.env.production
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    networks:
+      - tryme-net
+
+  web:
+    build:
+      context: ..
+      dockerfile: apps/catalogues-web/Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+        NEXT_PUBLIC_BASE_PATH: ${NEXT_PUBLIC_BASE_PATH:-}
+        NEXT_PUBLIC_CHATBOT_URL: ${NEXT_PUBLIC_CHATBOT_URL}
+    container_name: tryme-prod-web
+    restart: unless-stopped
+    environment:
+      NEXT_PUBLIC_BASE_PATH: ${NEXT_PUBLIC_BASE_PATH:-}
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+    ports:
+      - "127.0.0.1:3000:3000"
+    networks:
+      - tryme-net
+
+  admin:
+    build:
+      context: ..
+      dockerfile: apps/admin-web/Dockerfile
+      args:
+        VITE_CHATBOT_URL: ${VITE_CHATBOT_URL}
+    container_name: tryme-prod-admin
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3001:80"
+    networks:
+      - tryme-net
+
+  # Embedded Shopify admin SPA — served at admin.tryme.com/shopify-admin (edge
+  # strips the prefix before proxying here; see apps/shopify/nginx.conf). Shares
+  # the admin.tryme.com domain with the `admin` service above rather than
+  # getting its own subdomain.
+  shopify-admin:
+    build:
+      context: ..
+      dockerfile: apps/shopify/Dockerfile
+      args:
+        VITE_SHOPIFY_API_KEY: ${VITE_SHOPIFY_API_KEY}
+        VITE_TRYME_APP_URL: ${VITE_TRYME_APP_URL:-https://app.tryme.com}
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-https://app.tryme.com}
+    container_name: tryme-prod-shopify-admin
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3003:80"
+    networks:
+      - tryme-net
+
+  # Observability agent: tails container logs → Grafana Cloud Loki and scrapes
+  # api/dispatcher /metrics → Grafana Cloud Prometheus. No public ports.
+  alloy:
+    image: grafana/alloy:latest
+    container_name: tryme-prod-alloy
+    restart: unless-stopped
+    command:
+      - run
+      - --server.http.listen-addr=0.0.0.0:12345
+      - --storage.path=/var/lib/alloy/data
+      - /etc/alloy/config.alloy
+    environment:
+      ALLOY_CONTAINER_REGEX: /tryme-prod-.*
+      GRAFANA_CLOUD_LOKI_URL: ${GRAFANA_CLOUD_LOKI_URL}
+      GRAFANA_CLOUD_LOKI_USER: ${GRAFANA_CLOUD_LOKI_USER}
+      GRAFANA_CLOUD_PROM_URL: ${GRAFANA_CLOUD_PROM_URL}
+      GRAFANA_CLOUD_PROM_USER: ${GRAFANA_CLOUD_PROM_USER}
+      GRAFANA_CLOUD_API_KEY: ${GRAFANA_CLOUD_API_KEY}
+    volumes:
+      - ./observability/alloy.alloy:/etc/alloy/config.alloy:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - alloydata:/var/lib/alloy/data
+    depends_on:
+      - api
+      - dispatcher
+      - chatbot
+    networks:
+      - tryme-net
+
+volumes:
+  pgdata:
+  redisdata:
+  miniodata:
+  alloydata:
+
+networks:
+  tryme-net:
+    driver: bridge
+
