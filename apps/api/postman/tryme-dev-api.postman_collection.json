@@ -1,0 +1,3027 @@
+{
+  "item": [
+    {
+      "id": "713042c8-4971-498d-9494-4f86eb92b154",
+      "name": "v1/dev",
+      "item": [
+        {
+          "id": "3255d9a4-d965-4c9e-acb2-e7e0cbf8f5c6",
+          "name": "List try-on categories",
+          "request": {
+            "name": "List try-on categories",
+            "description": {},
+            "url": {
+              "path": ["v1", "dev", "categories"],
+              "host": ["{{baseUrl}}"],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "190aba98-4cb8-46b2-814c-a7c26de8cb76",
+              "name": "Default Response",
+              "originalRequest": {
+                "url": {
+                  "path": ["v1", "dev", "categories"],
+                  "host": ["{{baseUrl}}"],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"categories\": [\n    {\n      \"slug\": \"string\",\n      \"name\": \"string\"\n    },\n    {\n      \"slug\": \"string\",\n      \"name\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "78c9f1a3-2c00-4cd9-a956-4b8fe88f3547",
+              "name": "Default Response",
+              "originalRequest": {
+                "url": {
+                  "path": ["v1", "dev", "categories"],
+                  "host": ["{{baseUrl}}"],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "80c866e3-3bd8-4bf5-8c33-314eb79a9197",
+              "name": "Default Response",
+              "originalRequest": {
+                "url": {
+                  "path": ["v1", "dev", "categories"],
+                  "host": ["{{baseUrl}}"],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4c0459ac-73db-429a-89e9-396a047b024d",
+          "name": "Get account info",
+          "request": {
+            "name": "Get account info",
+            "description": {},
+            "url": {
+              "path": ["v1", "dev", "me"],
+              "host": ["{{baseUrl}}"],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4b6c18fe-a3bd-4206-b080-f4ea78ef595c",
+              "name": "Default Response",
+              "originalRequest": {
+                "url": {
+                  "path": ["v1", "dev", "me"],
+                  "host": ["{{baseUrl}}"],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"merchantId\": \"40db3b23-0946-33a9-9fdc-9a67b2ed0740\",\n  \"companyName\": \"string\",\n  \"credits\": 4138\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4a5d6276-6bd8-4441-8d1b-2fd32dfd9eff",
+              "name": "Default Response",
+              "originalRequest": {
+                "url": {
+                  "path": ["v1", "dev", "me"],
+                  "host": ["{{baseUrl}}"],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ba92d9cd-1ad3-45fb-9ab4-3a63460a061c",
+              "name": "Default Response",
+              "originalRequest": {
+                "url": {
+                  "path": ["v1", "dev", "me"],
+                  "host": ["{{baseUrl}}"],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "21550c5d-a92c-42ed-a3c4-3048a1c32695",
+              "name": "Default Response",
+              "originalRequest": {
+                "url": {
+                  "path": ["v1", "dev", "me"],
+                  "host": ["{{baseUrl}}"],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d465ecae-7b9d-4ebb-8627-3042168f0caa",
+          "name": "Create a try-on job",
+          "request": {
+            "name": "Create a try-on job",
+            "description": {
+              "content": "Upload a person image and a garment image, either as multipart/form-data (fields: category, person, garment) or as a JSON body with base64-encoded images (fields: category, person, garment — plain base64 or a data: URI). Returns a job id to poll.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": ["v1", "dev", "tryon"],
+              "host": ["{{baseUrl}}"],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "category",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) "
+                },
+                {
+                  "key": "person",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) "
+                },
+                {
+                  "key": "garment",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) "
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "49a0d603-80e3-4a23-9a74-3391740ef151",
+              "name": "Default Response",
+              "originalRequest": {
+                "url": {
+                  "path": ["v1", "dev", "tryon"],
+                  "host": ["{{baseUrl}}"],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "category",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "person",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "garment",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"jobId\": \"f2152caf-9433-3ea1-8ee9-d667c6856809\",\n  \"status\": \"QUEUED\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fa45f1ac-caa9-4c76-948b-7eef68e10ea0",
+              "name": "Default Response",
+              "originalRequest": {
+                "url": {
+                  "path": ["v1", "dev", "tryon"],
+                  "host": ["{{baseUrl}}"],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "category",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "person",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "garment",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "37bf2932-8d8d-457a-8c7c-4d2e4fab52bb",
+              "name": "Default Response",
+              "originalRequest": {
+                "url": {
+                  "path": ["v1", "dev", "tryon"],
+                  "host": ["{{baseUrl}}"],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "category",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "person",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "garment",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e0eb7ecb-2efb-4893-bafb-020df5ca37ed",
+              "name": "Default Response",
+              "originalRequest": {
+                "url": {
+                  "path": ["v1", "dev", "tryon"],
+                  "host": ["{{baseUrl}}"],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "category",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "person",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "garment",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Payment Required",
+              "code": 402,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9c4b4002-8f63-4ebc-9235-b89c4edd09c9",
+              "name": "Default Response",
+              "originalRequest": {
+                "url": {
+                  "path": ["v1", "dev", "tryon"],
+                  "host": ["{{baseUrl}}"],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "category",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "person",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "garment",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "760d3976-6268-4963-b444-7a05c41ea99d",
+              "name": "Default Response",
+              "originalRequest": {
+                "url": {
+                  "path": ["v1", "dev", "tryon"],
+                  "host": ["{{baseUrl}}"],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "category",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "person",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "garment",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b208fa14-4540-4332-a2ec-183372bef86e",
+              "name": "Default Response",
+              "originalRequest": {
+                "url": {
+                  "path": ["v1", "dev", "tryon"],
+                  "host": ["{{baseUrl}}"],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "category",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "person",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "garment",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ef067cc7-67f2-49b4-8dd1-fb2b19537071",
+          "name": "Generate a saree-draped mannequin image from a garment cloth photo",
+          "request": {
+            "name": "Generate a saree-draped mannequin image from a garment cloth photo",
+            "description": {
+              "content": "Upload a saree/garment cloth image, either as multipart/form-data (field: garment) or as a JSON body with a base64-encoded image (field: garment — plain base64 or a data: URI). The face/model is fixed by the configured workflow, not caller-supplied. Returns a job id to poll.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": ["v1", "dev", "saree-mannequin"],
+              "host": ["{{baseUrl}}"],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "garment",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) "
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "8133882f-1601-4804-ae5c-5288b2aa5b14",
+              "name": "Default Response",
+              "originalRequest": {
+                "url": {
+                  "path": ["v1", "dev", "saree-mannequin"],
+                  "host": ["{{baseUrl}}"],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "garment",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"jobId\": \"f2152caf-9433-3ea1-8ee9-d667c6856809\",\n  \"status\": \"QUEUED\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cccbfd7b-648f-4316-a036-22d02f39a9e2",
+              "name": "Default Response",
+              "originalRequest": {
+                "url": {
+                  "path": ["v1", "dev", "saree-mannequin"],
+                  "host": ["{{baseUrl}}"],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "garment",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e3fbafa7-d3b5-4c81-8075-48023be92023",
+              "name": "Default Response",
+              "originalRequest": {
+                "url": {
+                  "path": ["v1", "dev", "saree-mannequin"],
+                  "host": ["{{baseUrl}}"],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "garment",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c22dcdc0-977e-4a20-8738-ea19be5a46d4",
+              "name": "Default Response",
+              "originalRequest": {
+                "url": {
+                  "path": ["v1", "dev", "saree-mannequin"],
+                  "host": ["{{baseUrl}}"],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "garment",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Payment Required",
+              "code": 402,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "adaeb154-f214-4c79-ab8b-028558900c08",
+              "name": "Default Response",
+              "originalRequest": {
+                "url": {
+                  "path": ["v1", "dev", "saree-mannequin"],
+                  "host": ["{{baseUrl}}"],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "garment",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c46c9b46-8953-4fad-8a2b-ae4d74d8eb3c",
+              "name": "Default Response",
+              "originalRequest": {
+                "url": {
+                  "path": ["v1", "dev", "saree-mannequin"],
+                  "host": ["{{baseUrl}}"],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "garment",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0a063897-7521-4ccd-b89c-4fddfdc7e42f",
+              "name": "Default Response",
+              "originalRequest": {
+                "url": {
+                  "path": ["v1", "dev", "saree-mannequin"],
+                  "host": ["{{baseUrl}}"],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "garment",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0b570fb6-f494-40c5-8954-8dfe3f050c18",
+          "name": "Get try-on job status and result",
+          "request": {
+            "name": "Get try-on job status and result",
+            "description": {},
+            "url": {
+              "path": ["v1", "dev", "jobs", ":id"],
+              "host": ["{{baseUrl}}"],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ce17d258-c04a-4dba-b925-69ec9336314e",
+              "name": "Default Response",
+              "originalRequest": {
+                "url": {
+                  "path": ["v1", "dev", "jobs", ":id"],
+                  "host": ["{{baseUrl}}"],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"jobId\": \"0fca776f-d274-073a-ea18-26d3689d8d7d\",\n  \"status\": \"QUEUED\",\n  \"imageUrl\": \"https://EPIlrMAtDA.oxta3EcsZOr\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "23f1626b-356f-4f25-b678-74e8d6aa3d17",
+              "name": "Default Response",
+              "originalRequest": {
+                "url": {
+                  "path": ["v1", "dev", "jobs", ":id"],
+                  "host": ["{{baseUrl}}"],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2c8bd306-3eda-43b4-9136-ddd954e91c7d",
+              "name": "Default Response",
+              "originalRequest": {
+                "url": {
+                  "path": ["v1", "dev", "jobs", ":id"],
+                  "host": ["{{baseUrl}}"],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f1b2af1d-9862-4a64-aa8d-55abfcd16f85",
+              "name": "Default Response",
+              "originalRequest": {
+                "url": {
+                  "path": ["v1", "dev", "jobs", ":id"],
+                  "host": ["{{baseUrl}}"],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b9f850a7-96ce-4f3c-ac3b-e2e4f5605fba",
+          "name": "catalog",
+          "item": [
+            {
+              "id": "43d0abf9-49d9-4913-935f-4ba7b5a90285",
+              "name": "List selectable catalog assets",
+              "request": {
+                "name": "List selectable catalog assets",
+                "description": {
+                  "content": "Returns the admin-curated models, backgrounds, poses, lower garments and shoes available to your account, addressed by stable slug. Feed those slugs to POST /v1/dev/catalog/generate. Responses carry an ETag — send it back as If-None-Match to get a 304 when nothing has changed.\n\nPass `garmentType` to narrow poses, lower garments and shoes to the ones configured for that garment type — some poses are disabled per garment type and will not resolve on /v1/dev/catalog/generate even though they appear in the unfiltered (no `garmentType`) list. If you plan to submit a `garmentType` to generate, fetch options with that same `garmentType` first.",
+                  "type": "text/plain"
+                },
+                "url": {
+                  "path": ["v1", "dev", "catalog", "options"],
+                  "host": ["{{baseUrl}}"],
+                  "query": [
+                    {
+                      "disabled": false,
+                      "key": "gender",
+                      "value": "<string>",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "key": "garmentType",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "auth": null
+              },
+              "response": [
+                {
+                  "id": "627538ff-008f-4b31-9a86-19eedc9e2715",
+                  "name": "Default Response",
+                  "originalRequest": {
+                    "url": {
+                      "path": ["v1", "dev", "catalog", "options"],
+                      "host": ["{{baseUrl}}"],
+                      "query": [
+                        {
+                          "key": "gender",
+                          "value": "<string>"
+                        },
+                        {
+                          "key": "garmentType",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": []
+                    },
+                    "header": [
+                      {
+                        "description": {
+                          "content": "Added as a part of security scheme: bearer",
+                          "type": "text/plain"
+                        },
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "method": "GET",
+                    "body": {}
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "body": "{\n  \"garmentTypes\": [\n    {\n      \"slug\": \"string\",\n      \"label\": \"string\"\n    },\n    {\n      \"slug\": \"string\",\n      \"label\": \"string\"\n    }\n  ],\n  \"faces\": [\n    {\n      \"slug\": \"string\",\n      \"label\": \"string\",\n      \"thumbnailUrl\": \"string\"\n    },\n    {\n      \"slug\": \"string\",\n      \"label\": \"string\",\n      \"thumbnailUrl\": \"string\"\n    }\n  ],\n  \"backgrounds\": [\n    {\n      \"slug\": \"string\",\n      \"label\": \"string\",\n      \"thumbnailUrl\": \"string\"\n    },\n    {\n      \"slug\": \"string\",\n      \"label\": \"string\",\n      \"thumbnailUrl\": \"string\"\n    }\n  ],\n  \"poses\": [\n    {\n      \"slug\": \"string\",\n      \"label\": \"string\",\n      \"thumbnailUrl\": \"string\",\n      \"hasLower\": false,\n      \"hasShoes\": false\n    },\n    {\n      \"slug\": \"string\",\n      \"label\": \"string\",\n      \"thumbnailUrl\": \"string\",\n      \"hasLower\": false,\n      \"hasShoes\": true\n    }\n  ],\n  \"lowerItems\": [\n    {\n      \"slug\": \"string\",\n      \"label\": \"string\",\n      \"thumbnailUrl\": \"string\"\n    },\n    {\n      \"slug\": \"string\",\n      \"label\": \"string\",\n      \"thumbnailUrl\": \"string\"\n    }\n  ],\n  \"shoeItems\": [\n    {\n      \"slug\": \"string\",\n      \"label\": \"string\",\n      \"thumbnailUrl\": \"string\"\n    },\n    {\n      \"slug\": \"string\",\n      \"label\": \"string\",\n      \"thumbnailUrl\": \"string\"\n    }\n  ]\n}",
+                  "cookie": [],
+                  "_postman_previewlanguage": "json"
+                },
+                {
+                  "id": "f79dcf33-1466-4522-8e34-41705de073a4",
+                  "name": "Default Response",
+                  "originalRequest": {
+                    "url": {
+                      "path": ["v1", "dev", "catalog", "options"],
+                      "host": ["{{baseUrl}}"],
+                      "query": [
+                        {
+                          "key": "gender",
+                          "value": "<string>"
+                        },
+                        {
+                          "key": "garmentType",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": []
+                    },
+                    "header": [
+                      {
+                        "description": {
+                          "content": "Added as a part of security scheme: bearer",
+                          "type": "text/plain"
+                        },
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "method": "GET",
+                    "body": {}
+                  },
+                  "status": "Not Modified",
+                  "code": 304,
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "body": "\"string\"",
+                  "cookie": [],
+                  "_postman_previewlanguage": "json"
+                },
+                {
+                  "id": "9fad6a39-0ba7-494d-8639-865ae6269bb7",
+                  "name": "Default Response",
+                  "originalRequest": {
+                    "url": {
+                      "path": ["v1", "dev", "catalog", "options"],
+                      "host": ["{{baseUrl}}"],
+                      "query": [
+                        {
+                          "key": "gender",
+                          "value": "<string>"
+                        },
+                        {
+                          "key": "garmentType",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": []
+                    },
+                    "header": [
+                      {
+                        "description": {
+                          "content": "Added as a part of security scheme: bearer",
+                          "type": "text/plain"
+                        },
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "method": "GET",
+                    "body": {}
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+                  "cookie": [],
+                  "_postman_previewlanguage": "json"
+                },
+                {
+                  "id": "37834082-6f63-4a9c-9675-deecba8e2fa2",
+                  "name": "Default Response",
+                  "originalRequest": {
+                    "url": {
+                      "path": ["v1", "dev", "catalog", "options"],
+                      "host": ["{{baseUrl}}"],
+                      "query": [
+                        {
+                          "key": "gender",
+                          "value": "<string>"
+                        },
+                        {
+                          "key": "garmentType",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": []
+                    },
+                    "header": [
+                      {
+                        "description": {
+                          "content": "Added as a part of security scheme: bearer",
+                          "type": "text/plain"
+                        },
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "method": "GET",
+                    "body": {}
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+                  "cookie": [],
+                  "_postman_previewlanguage": "json"
+                },
+                {
+                  "id": "5aad61a2-8c22-4f42-910f-ea2d76e8d801",
+                  "name": "Default Response",
+                  "originalRequest": {
+                    "url": {
+                      "path": ["v1", "dev", "catalog", "options"],
+                      "host": ["{{baseUrl}}"],
+                      "query": [
+                        {
+                          "key": "gender",
+                          "value": "<string>"
+                        },
+                        {
+                          "key": "garmentType",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": []
+                    },
+                    "header": [
+                      {
+                        "description": {
+                          "content": "Added as a part of security scheme: bearer",
+                          "type": "text/plain"
+                        },
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "method": "GET",
+                    "body": {}
+                  },
+                  "status": "Too Many Requests",
+                  "code": 429,
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+                  "cookie": [],
+                  "_postman_previewlanguage": "json"
+                }
+              ],
+              "event": [],
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              }
+            },
+            {
+              "id": "c7d7f310-e061-4092-9fae-9ed995006a75",
+              "name": "Generate a catalog from admin-curated assets",
+              "request": {
+                "name": "Generate a catalog from admin-curated assets",
+                "description": {
+                  "content": "Upload one garment image and pick a model, plus up to 12 pose/background combinations, using slugs from GET /v1/dev/catalog/options. Each combination becomes its own job and its own credit charge, so each pose/background pair must be unique within a request. Accepts multipart/form-data (with `looks` as a JSON-encoded string) or a JSON body with a base64 garment. Poll the returned catalogueId via GET /v1/dev/catalogues/{id}.\n\nIf `garmentType` is set, pose/lower/shoe slugs are validated against that garment type's narrowed set, not the full gender list — a slug from an unfiltered GET /v1/dev/catalog/options call can be rejected as BAD_SLUG here if it is disabled for the garmentType you send. Fetch options with the same `garmentType` first to avoid this.",
+                  "type": "text/plain"
+                },
+                "url": {
+                  "path": ["v1", "dev", "catalog", "generate"],
+                  "host": ["{{baseUrl}}"],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "multipart/form-data"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "auth": null,
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "garment",
+                      "value": "<string>",
+                      "type": "text",
+                      "description": "(Required) "
+                    },
+                    {
+                      "key": "gender",
+                      "value": "<string>",
+                      "type": "text",
+                      "description": "(Required)  (This can only be one of men,women,boys,girls)"
+                    },
+                    {
+                      "key": "face",
+                      "value": "<string>",
+                      "type": "text",
+                      "description": "(Required) "
+                    },
+                    {
+                      "key": "looks",
+                      "value": "[{\"pose\":\"<string>\",\"background\":\"<string>\"}]",
+                      "type": "text",
+                      "description": "(Required) "
+                    },
+                    {
+                      "key": "aspectRatio",
+                      "value": "<string>",
+                      "type": "text",
+                      "description": "(Required)  (This can only be one of 1:1,2:3,3:4,4:5)"
+                    },
+                    {
+                      "key": "resolution",
+                      "value": "<string>",
+                      "type": "text",
+                      "description": "(Required)  (This can only be one of HD,2K,4K)"
+                    },
+                    {
+                      "key": "garmentType",
+                      "value": "<string>",
+                      "type": "text",
+                      "description": ""
+                    },
+                    {
+                      "key": "lower",
+                      "value": "<string>",
+                      "type": "text",
+                      "description": ""
+                    },
+                    {
+                      "key": "shoe",
+                      "value": "<string>",
+                      "type": "text",
+                      "description": ""
+                    }
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "id": "681b393e-001c-4d9b-a7f1-72d0827a93e6",
+                  "name": "Default Response",
+                  "originalRequest": {
+                    "url": {
+                      "path": ["v1", "dev", "catalog", "generate"],
+                      "host": ["{{baseUrl}}"],
+                      "query": [],
+                      "variable": []
+                    },
+                    "header": [
+                      {
+                        "description": {
+                          "content": "Added as a part of security scheme: bearer",
+                          "type": "text/plain"
+                        },
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "method": "POST",
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "description": {
+                            "content": "(Required) ",
+                            "type": "text/plain"
+                          },
+                          "key": "garment",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required)  (This can only be one of men,women,boys,girls)",
+                            "type": "text/plain"
+                          },
+                          "key": "gender",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required) ",
+                            "type": "text/plain"
+                          },
+                          "key": "face",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required) ",
+                            "type": "text/plain"
+                          },
+                          "key": "looks",
+                          "value": "[{\"pose\":\"<string>\",\"background\":\"<string>\"}]",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required)  (This can only be one of 1:1,2:3,3:4,4:5)",
+                            "type": "text/plain"
+                          },
+                          "key": "aspectRatio",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required)  (This can only be one of HD,2K,4K)",
+                            "type": "text/plain"
+                          },
+                          "key": "resolution",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "",
+                            "type": "text/plain"
+                          },
+                          "key": "garmentType",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "",
+                            "type": "text/plain"
+                          },
+                          "key": "lower",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "",
+                            "type": "text/plain"
+                          },
+                          "key": "shoe",
+                          "value": "<string>",
+                          "type": "text"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Accepted",
+                  "code": 202,
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "body": "{\n  \"catalogueId\": \"95b73542-eef7-6a43-692d-8d98ee08dd8f\",\n  \"jobs\": [\n    {\n      \"jobId\": \"12a54fbb-a190-786b-64a0-cd52a60763a6\",\n      \"pose\": \"string\",\n      \"background\": \"string\"\n    },\n    {\n      \"jobId\": \"603f2c19-b514-0c5a-f6e4-029a74edd96b\",\n      \"pose\": \"string\",\n      \"background\": \"string\"\n    }\n  ]\n}",
+                  "cookie": [],
+                  "_postman_previewlanguage": "json"
+                },
+                {
+                  "id": "66d3ebde-e239-4480-abe9-b5700c7afb82",
+                  "name": "Default Response",
+                  "originalRequest": {
+                    "url": {
+                      "path": ["v1", "dev", "catalog", "generate"],
+                      "host": ["{{baseUrl}}"],
+                      "query": [],
+                      "variable": []
+                    },
+                    "header": [
+                      {
+                        "description": {
+                          "content": "Added as a part of security scheme: bearer",
+                          "type": "text/plain"
+                        },
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "method": "POST",
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "description": {
+                            "content": "(Required) ",
+                            "type": "text/plain"
+                          },
+                          "key": "garment",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required)  (This can only be one of men,women,boys,girls)",
+                            "type": "text/plain"
+                          },
+                          "key": "gender",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required) ",
+                            "type": "text/plain"
+                          },
+                          "key": "face",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required) ",
+                            "type": "text/plain"
+                          },
+                          "key": "looks",
+                          "value": "[{\"pose\":\"<string>\",\"background\":\"<string>\"}]",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required)  (This can only be one of 1:1,2:3,3:4,4:5)",
+                            "type": "text/plain"
+                          },
+                          "key": "aspectRatio",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required)  (This can only be one of HD,2K,4K)",
+                            "type": "text/plain"
+                          },
+                          "key": "resolution",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "",
+                            "type": "text/plain"
+                          },
+                          "key": "garmentType",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "",
+                            "type": "text/plain"
+                          },
+                          "key": "lower",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "",
+                            "type": "text/plain"
+                          },
+                          "key": "shoe",
+                          "value": "<string>",
+                          "type": "text"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+                  "cookie": [],
+                  "_postman_previewlanguage": "json"
+                },
+                {
+                  "id": "26fafbdd-c18c-4cf2-8107-a11dd195bc10",
+                  "name": "Default Response",
+                  "originalRequest": {
+                    "url": {
+                      "path": ["v1", "dev", "catalog", "generate"],
+                      "host": ["{{baseUrl}}"],
+                      "query": [],
+                      "variable": []
+                    },
+                    "header": [
+                      {
+                        "description": {
+                          "content": "Added as a part of security scheme: bearer",
+                          "type": "text/plain"
+                        },
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "method": "POST",
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "description": {
+                            "content": "(Required) ",
+                            "type": "text/plain"
+                          },
+                          "key": "garment",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required)  (This can only be one of men,women,boys,girls)",
+                            "type": "text/plain"
+                          },
+                          "key": "gender",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required) ",
+                            "type": "text/plain"
+                          },
+                          "key": "face",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required) ",
+                            "type": "text/plain"
+                          },
+                          "key": "looks",
+                          "value": "[{\"pose\":\"<string>\",\"background\":\"<string>\"}]",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required)  (This can only be one of 1:1,2:3,3:4,4:5)",
+                            "type": "text/plain"
+                          },
+                          "key": "aspectRatio",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required)  (This can only be one of HD,2K,4K)",
+                            "type": "text/plain"
+                          },
+                          "key": "resolution",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "",
+                            "type": "text/plain"
+                          },
+                          "key": "garmentType",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "",
+                            "type": "text/plain"
+                          },
+                          "key": "lower",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "",
+                            "type": "text/plain"
+                          },
+                          "key": "shoe",
+                          "value": "<string>",
+                          "type": "text"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+                  "cookie": [],
+                  "_postman_previewlanguage": "json"
+                },
+                {
+                  "id": "ca5faa9f-22f4-44f5-8399-7f46a124779a",
+                  "name": "Default Response",
+                  "originalRequest": {
+                    "url": {
+                      "path": ["v1", "dev", "catalog", "generate"],
+                      "host": ["{{baseUrl}}"],
+                      "query": [],
+                      "variable": []
+                    },
+                    "header": [
+                      {
+                        "description": {
+                          "content": "Added as a part of security scheme: bearer",
+                          "type": "text/plain"
+                        },
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "method": "POST",
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "description": {
+                            "content": "(Required) ",
+                            "type": "text/plain"
+                          },
+                          "key": "garment",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required)  (This can only be one of men,women,boys,girls)",
+                            "type": "text/plain"
+                          },
+                          "key": "gender",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required) ",
+                            "type": "text/plain"
+                          },
+                          "key": "face",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required) ",
+                            "type": "text/plain"
+                          },
+                          "key": "looks",
+                          "value": "[{\"pose\":\"<string>\",\"background\":\"<string>\"}]",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required)  (This can only be one of 1:1,2:3,3:4,4:5)",
+                            "type": "text/plain"
+                          },
+                          "key": "aspectRatio",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required)  (This can only be one of HD,2K,4K)",
+                            "type": "text/plain"
+                          },
+                          "key": "resolution",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "",
+                            "type": "text/plain"
+                          },
+                          "key": "garmentType",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "",
+                            "type": "text/plain"
+                          },
+                          "key": "lower",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "",
+                            "type": "text/plain"
+                          },
+                          "key": "shoe",
+                          "value": "<string>",
+                          "type": "text"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Payment Required",
+                  "code": 402,
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+                  "cookie": [],
+                  "_postman_previewlanguage": "json"
+                },
+                {
+                  "id": "07a1714a-d7af-425a-94a4-2b7bf69d3ba4",
+                  "name": "Default Response",
+                  "originalRequest": {
+                    "url": {
+                      "path": ["v1", "dev", "catalog", "generate"],
+                      "host": ["{{baseUrl}}"],
+                      "query": [],
+                      "variable": []
+                    },
+                    "header": [
+                      {
+                        "description": {
+                          "content": "Added as a part of security scheme: bearer",
+                          "type": "text/plain"
+                        },
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "method": "POST",
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "description": {
+                            "content": "(Required) ",
+                            "type": "text/plain"
+                          },
+                          "key": "garment",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required)  (This can only be one of men,women,boys,girls)",
+                            "type": "text/plain"
+                          },
+                          "key": "gender",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required) ",
+                            "type": "text/plain"
+                          },
+                          "key": "face",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required) ",
+                            "type": "text/plain"
+                          },
+                          "key": "looks",
+                          "value": "[{\"pose\":\"<string>\",\"background\":\"<string>\"}]",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required)  (This can only be one of 1:1,2:3,3:4,4:5)",
+                            "type": "text/plain"
+                          },
+                          "key": "aspectRatio",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required)  (This can only be one of HD,2K,4K)",
+                            "type": "text/plain"
+                          },
+                          "key": "resolution",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "",
+                            "type": "text/plain"
+                          },
+                          "key": "garmentType",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "",
+                            "type": "text/plain"
+                          },
+                          "key": "lower",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "",
+                            "type": "text/plain"
+                          },
+                          "key": "shoe",
+                          "value": "<string>",
+                          "type": "text"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+                  "cookie": [],
+                  "_postman_previewlanguage": "json"
+                },
+                {
+                  "id": "702057e7-59cf-4024-9ab7-7917446422c2",
+                  "name": "Default Response",
+                  "originalRequest": {
+                    "url": {
+                      "path": ["v1", "dev", "catalog", "generate"],
+                      "host": ["{{baseUrl}}"],
+                      "query": [],
+                      "variable": []
+                    },
+                    "header": [
+                      {
+                        "description": {
+                          "content": "Added as a part of security scheme: bearer",
+                          "type": "text/plain"
+                        },
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "method": "POST",
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "description": {
+                            "content": "(Required) ",
+                            "type": "text/plain"
+                          },
+                          "key": "garment",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required)  (This can only be one of men,women,boys,girls)",
+                            "type": "text/plain"
+                          },
+                          "key": "gender",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required) ",
+                            "type": "text/plain"
+                          },
+                          "key": "face",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required) ",
+                            "type": "text/plain"
+                          },
+                          "key": "looks",
+                          "value": "[{\"pose\":\"<string>\",\"background\":\"<string>\"}]",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required)  (This can only be one of 1:1,2:3,3:4,4:5)",
+                            "type": "text/plain"
+                          },
+                          "key": "aspectRatio",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required)  (This can only be one of HD,2K,4K)",
+                            "type": "text/plain"
+                          },
+                          "key": "resolution",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "",
+                            "type": "text/plain"
+                          },
+                          "key": "garmentType",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "",
+                            "type": "text/plain"
+                          },
+                          "key": "lower",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "",
+                            "type": "text/plain"
+                          },
+                          "key": "shoe",
+                          "value": "<string>",
+                          "type": "text"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Too Many Requests",
+                  "code": 429,
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+                  "cookie": [],
+                  "_postman_previewlanguage": "json"
+                },
+                {
+                  "id": "e3c9893c-0c5f-4418-aff7-d11dc41092e3",
+                  "name": "Default Response",
+                  "originalRequest": {
+                    "url": {
+                      "path": ["v1", "dev", "catalog", "generate"],
+                      "host": ["{{baseUrl}}"],
+                      "query": [],
+                      "variable": []
+                    },
+                    "header": [
+                      {
+                        "description": {
+                          "content": "Added as a part of security scheme: bearer",
+                          "type": "text/plain"
+                        },
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "method": "POST",
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "description": {
+                            "content": "(Required) ",
+                            "type": "text/plain"
+                          },
+                          "key": "garment",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required)  (This can only be one of men,women,boys,girls)",
+                            "type": "text/plain"
+                          },
+                          "key": "gender",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required) ",
+                            "type": "text/plain"
+                          },
+                          "key": "face",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required) ",
+                            "type": "text/plain"
+                          },
+                          "key": "looks",
+                          "value": "[{\"pose\":\"<string>\",\"background\":\"<string>\"}]",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required)  (This can only be one of 1:1,2:3,3:4,4:5)",
+                            "type": "text/plain"
+                          },
+                          "key": "aspectRatio",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "(Required)  (This can only be one of HD,2K,4K)",
+                            "type": "text/plain"
+                          },
+                          "key": "resolution",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "",
+                            "type": "text/plain"
+                          },
+                          "key": "garmentType",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "",
+                            "type": "text/plain"
+                          },
+                          "key": "lower",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": {
+                            "content": "",
+                            "type": "text/plain"
+                          },
+                          "key": "shoe",
+                          "value": "<string>",
+                          "type": "text"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Service Unavailable",
+                  "code": 503,
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+                  "cookie": [],
+                  "_postman_previewlanguage": "json"
+                }
+              ],
+              "event": [],
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              }
+            }
+          ],
+          "event": []
+        },
+        {
+          "id": "d8c93470-bac3-440b-aeef-431c34a28d8d",
+          "name": "Get status of every job in a catalog",
+          "request": {
+            "name": "Get status of every job in a catalog",
+            "description": {
+              "content": "Returns all jobs created by one /v1/dev/catalog/generate call. Poll this instead of polling each job individually.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": ["v1", "dev", "catalogues", ":id"],
+              "host": ["{{baseUrl}}"],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "406418ef-baeb-4858-a0b6-31573300b35c",
+              "name": "Default Response",
+              "originalRequest": {
+                "url": {
+                  "path": ["v1", "dev", "catalogues", ":id"],
+                  "host": ["{{baseUrl}}"],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"catalogueId\": \"fda91aaa-8f9b-10f9-02f6-c15745eeb5af\",\n  \"jobs\": [\n    {\n      \"jobId\": \"0a0b3c7f-38c4-0a2c-5333-08ac3cb1dc3b\",\n      \"status\": \"QUEUED\",\n      \"imageUrl\": \"https://NZxvNCvSHvUGgIRy.gicF-yn+CdAIxDglXE0FURUVsesT4Dm-MImy-naOs2fSXCi-xJsvj7g8cXDkG\",\n      \"error\": \"string\"\n    },\n    {\n      \"jobId\": \"6557ce11-48eb-0180-2874-c486ab6be1c9\",\n      \"status\": \"RUNNING\",\n      \"imageUrl\": \"https://BLNhG.dswpUHzfq5vpVxKbkvLt2tMP9G\",\n      \"error\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "32edd0f8-24c5-48e5-a0e6-567bce1c1ccc",
+              "name": "Default Response",
+              "originalRequest": {
+                "url": {
+                  "path": ["v1", "dev", "catalogues", ":id"],
+                  "host": ["{{baseUrl}}"],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0bcf15c2-36f7-4997-a60e-89859e0f0589",
+              "name": "Default Response",
+              "originalRequest": {
+                "url": {
+                  "path": ["v1", "dev", "catalogues", ":id"],
+                  "host": ["{{baseUrl}}"],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5a11090d-f92f-47dc-9a52-86f228052f9a",
+              "name": "Default Response",
+              "originalRequest": {
+                "url": {
+                  "path": ["v1", "dev", "catalogues", ":id"],
+                  "host": ["{{baseUrl}}"],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.tryme.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "a07416a2-a91b-4231-80c7-71b941c4771f",
+    "name": "Try-On API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Send a person photo and a garment photo, get back a generated try-on image. This is the\nserver-to-server API — no browser, no cookies, no admin-curated faces/poses. Just two\nimages, a category, and a poll loop.\n\nEvery command below uses `$API_URL` as a placeholder for `https://app.tryme.com` — it\nis **not** resolved automatically, set it yourself before running any example.\n\n> **Interactive reference:** every endpoint below is also documented live at\n> `$API_URL/v1/dev/docs` — a Scalar-rendered page generated straight from the API's\n> OpenAPI spec (`$API_URL/v1/dev/openapi.json`). Use it to explore request/response\n> schemas or try a call from the browser; use this guide for the end-to-end walkthrough.\n>\n> **Postman:** import a ready-made request collection via File → Import → Link, using:\n>\n> ```\n> $API_URL/v1/dev/postman-collection.json\n> ```\n\n## 0. Getting a merchant account\n\nThere's no public self-serve signup yet — merchant accounts are created by an admin:\n\n1. Contact your Tryme admin/account manager and ask for a merchant account for your\n   company. Give them your email, company name, and contact details.\n2. The admin creates the account from the internal admin panel (**Merchants → Add\n   merchant**). This activates it immediately — no separate approval wait.\n3. You'll get login credentials (or the admin links an existing account) for the merchant\n   web app.\n4. Log in, go to **Developers** (`/developers`), and continue to §1 below to create your\n   API key.\n\n## 1. Authentication\n\nEvery request carries your API key as a bearer token:\n\n```\nAuthorization: Bearer <your-api-key>\n```\n\nGet a key from the **Developers** dashboard (`/developers` in the web app) after your\nmerchant account has been activated by an admin. Click **Create key** — the full key is\nshown **exactly once**, at creation time. It is stored server-side only as a SHA-256 hash;\nif you lose the key, revoke it and create a new one, you cannot recover the original value.\n\nTreat the key like any other server secret:\n\n- Never embed it in browser/client-side JavaScript, a mobile app binary, or a public repo.\n- Call `/v1/dev/*` only from your own backend.\n- Keep multiple keys (one per environment) so you can rotate one without downtime — revoking\n  a key does not affect your other keys.\n\nA missing, malformed, or revoked key returns `401 UNAUTHORIZED` (see the error table below).\n\n## 2. The three-call flow\n\n1. **`GET /v1/dev/categories`** — list the garment categories your merchant account can\n   submit jobs for. Pick a `slug` from the response.\n2. **`POST /v1/dev/tryon`** — a `person` image, a `garment` image, and the chosen `category`\n   slug, sent either as a **multipart/form-data** upload or as a **JSON body with\n   base64-encoded images** (see §3b) — pick whichever your stack finds easier. Returns\n   `202` with a `jobId` immediately; generation happens asynchronously.\n   `person`/`garment` requirements: JPEG, PNG, or WebP, ≤10MB each (see §6) — there is\n   no enforced or recommended framing, pose, or lighting beyond that.\n3. **`GET /v1/dev/jobs/:id`** — poll until `status` is `COMPLETED` (with an `imageUrl`) or\n   `FAILED` (with an `error`).\n\nOptionally call **`GET /v1/dev/me`** any time as a key smoke test — it returns your\n`merchantId`, `companyName`, and current credit balance.\n\n## 3. curl example — full flow\n\n```bash\nexport API_KEY=\"<your-api-key>\"\nexport API_URL=\"https://app.tryme.com\"\n\n# 1. List categories\ncurl -s \"$API_URL/v1/dev/categories\" \\\n  -H \"Authorization: Bearer $API_KEY\" | python3 -m json.tool\n# => {\"categories\": [{\"slug\": \"upper\", \"name\": \"Upper Body\"}, ...]}\n\n# 2. Create a try-on job (person.jpg and garment.jpg are local files)\ncurl -s -X POST \"$API_URL/v1/dev/tryon\" \\\n  -H \"Authorization: Bearer $API_KEY\" \\\n  -F \"category=upper\" \\\n  -F \"person=@person.jpg\" \\\n  -F \"garment=@garment.jpg\"\n# => {\"jobId\": \"5f2b1a3e-9c4d-4e2a-8f1b-1234567890ab\", \"status\": \"QUEUED\"}\n\n# 3. Poll for the result (repeat until status is COMPLETED or FAILED)\ncurl -s \"$API_URL/v1/dev/jobs/5f2b1a3e-9c4d-4e2a-8f1b-1234567890ab\" \\\n  -H \"Authorization: Bearer $API_KEY\" | python3 -m json.tool\n# => {\"jobId\": \"...\", \"status\": \"RUNNING\"}\n# => {\"jobId\": \"...\", \"status\": \"COMPLETED\", \"imageUrl\": \"https://.../result.png?X-Amz-...\"}\n```\n\n`imageUrl` is a presigned URL valid for **15 minutes**. If it expires before you download\nit, call `GET /v1/dev/jobs/:id` again — it reissues a fresh presigned URL for the same\ncompleted job.\n\n## 3b. JSON/base64 instead of multipart\n\nIf your stack can't easily build a multipart body (some serverless/no-code platforms,\ncertain HTTP clients), send the same three fields as JSON with base64-encoded images\ninstead. Everything else — job creation, polling, credits, errors — is identical.\n\n```bash\npython3 -c \"\nimport json, base64\nperson = base64.b64encode(open('person.jpg', 'rb').read()).decode()\ngarment = base64.b64encode(open('garment.jpg', 'rb').read()).decode()\nprint(json.dumps({'category': 'upper', 'person': person, 'garment': garment}))\n\" > body.json\n\ncurl -s -X POST \"$API_URL/v1/dev/tryon\" \\\n  -H \"Authorization: Bearer $API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  --data @body.json\n# => {\"jobId\": \"...\", \"status\": \"QUEUED\"}\n```\n\n`person`/`garment` accept either a raw base64 string or a `data:image/jpeg;base64,...` URI\n(the `data:` prefix is stripped automatically if present). Same 10MB-per-image limit and\nmagic-byte content check as the multipart path — base64 inflates the wire size by ~33%, so\na 10MB image becomes a ~13.4MB JSON field.\n\n## 3c. Saree mannequin generation\n\nA separate, single-image endpoint: `POST /v1/dev/saree-mannequin`. Send one `garment` image\n(the saree/garment cloth photo) — no `person` image, no `category`. The model/face is fixed by\nthe configured workflow, not caller-supplied. Same 202 + poll pattern, same `GET\n/v1/dev/jobs/:id` polling, same credit/refund/error behavior as `/v1/dev/tryon` above.\n\n```bash\ncurl -s -X POST \"$API_URL/v1/dev/saree-mannequin\" \\\n  -H \"Authorization: Bearer $API_KEY\" \\\n  -F \"garment=@saree.jpg\"\n# => {\"jobId\": \"...\", \"status\": \"QUEUED\"}\n```\n\nOr JSON/base64:\n\n```bash\npython3 -c \"\nimport json, base64\ngarment = base64.b64encode(open('saree.jpg', 'rb').read()).decode()\nprint(json.dumps({'garment': garment}))\n\" > body.json\n\ncurl -s -X POST \"$API_URL/v1/dev/saree-mannequin\" \\\n  -H \"Authorization: Bearer $API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  --data @body.json\n```\n\nIf no mannequin-step garment type is configured (or its workflow is inactive), this returns\n`400 BAD_CATEGORY` with no credits charged — same kill-switch behavior as an unknown/inactive\n`category` on `/v1/dev/tryon`.\n\n## 4. Node.js example — `FormData` + `fetch` with a backing-off poll loop\n\nRequires Node 20+ (global `fetch`, `FormData`, and `Blob` — no extra dependencies).\n\n```js\nimport { readFileSync } from 'node:fs';\n\nconst API_URL = process.env.DEV_API_URL ?? 'https://app.tryme.com';\nconst API_KEY = process.env.DEV_API_KEY; // e.g. \"<your-api-key>\"\n\nif (!API_KEY) {\n  throw new Error('Set DEV_API_KEY to your sk_live_... key before running this script.');\n}\n\nasync function createTryon({ category, personPath, garmentPath }) {\n  const form = new FormData();\n  form.append('category', category);\n  form.append('person', new Blob([readFileSync(personPath)], { type: 'image/jpeg' }), 'person.jpg');\n  form.append('garment', new Blob([readFileSync(garmentPath)], { type: 'image/jpeg' }), 'garment.jpg');\n\n  const res = await fetch(`${API_URL}/v1/dev/tryon`, {\n    method: 'POST',\n    headers: { Authorization: `Bearer ${API_KEY}` },\n    body: form,\n  });\n\n  const body = await res.json();\n  if (!res.ok) {\n    throw new Error(`create failed: ${body.error.code} — ${body.error.message}`);\n  }\n  return body; // { jobId, status: \"QUEUED\" }\n}\n\nasync function pollJob(jobId, { maxAttempts = 20, initialDelayMs = 2000, maxDelayMs = 20000 } = {}) {\n  let delay = initialDelayMs;\n\n  for (let attempt = 1; attempt <= maxAttempts; attempt++) {\n    const res = await fetch(`${API_URL}/v1/dev/jobs/${jobId}`, {\n      headers: { Authorization: `Bearer ${API_KEY}` },\n    });\n    const body = await res.json();\n    if (!res.ok) {\n      throw new Error(`poll failed: ${body.error.code} — ${body.error.message}`);\n    }\n\n    if (body.status === 'COMPLETED') return body.imageUrl;\n    if (body.status === 'FAILED') throw new Error(`job ${jobId} failed: ${body.error}`);\n\n    // QUEUED or RUNNING — back off (capped) and try again.\n    await new Promise((resolve) => setTimeout(resolve, delay));\n    delay = Math.min(delay * 1.5, maxDelayMs);\n  }\n\n  throw new Error(`gave up polling job ${jobId} after ${maxAttempts} attempts`);\n}\n\nconst { jobId } = await createTryon({\n  category: 'upper',\n  personPath: './person.jpg',\n  garmentPath: './garment.jpg',\n});\nconsole.log('job created:', jobId);\n\nconst imageUrl = await pollJob(jobId);\nconsole.log('done:', imageUrl);\n```\n\nWith the defaults above (2s initial delay, ×1.5 backoff, 20s cap, 20 attempts) the loop\ngives up after a little over 5 minutes. Tune `maxAttempts`/`maxDelayMs` to your own\ntolerance for generation latency.\n\n## 5. Errors\n\nEvery error response has the same envelope:\n\n```json\n{ \"error\": { \"code\": \"VALIDATION\", \"message\": \"category is required\" } }\n```\n\n| Code | HTTP status | When it happens |\n|---|---|---|\n| `UNAUTHORIZED` | 401 | Missing/malformed `Authorization` header, unknown or revoked key, or the key's merchant account is deactivated. Message is intentionally generic for all of these — key existence is never disclosed. |\n| `VALIDATION` | 400 | Missing `category` field, missing `person` or `garment` file, an unexpected multipart field name, a file over 10MB, or a file that fails the image-type check. |\n| `BAD_CATEGORY` | 400 | The `category` slug doesn't match an active category, or its category has no active workflow configured. No credits are charged. |\n| `INSUFFICIENT_CREDITS` | 402 | Your merchant credit balance is too low to cover this job's cost. No job is created. |\n| `NOT_FOUND` | 404 | The job ID doesn't exist, or belongs to a different merchant. Returned as 404 (not 403) so job IDs aren't enumerable. |\n| `RATE_LIMIT` | 429 | You've exceeded 60 requests/minute on this key. Response includes a `Retry-After` header — wait that long before retrying. |\n| `ENQUEUE_FAIL` | 503 | The job was accepted but couldn't be queued for processing (transient infra issue). Credits already charged are **automatically refunded**; retry the request. |\n| `FORBIDDEN` | 403 | Your merchant account is suspended. Contact support. |\n\nA `500 INTERNAL` is also possible on unexpected server errors; if you see one repeatedly,\ncontact support with the `jobId` (if any) and approximate timestamp.\n\n`GET /v1/dev/jobs/:id` only ever reports `status` as `QUEUED`, `RUNNING`, `COMPLETED`, or\n`FAILED` — the internal processing stages (preprocessing, generation, upload) all collapse\nto `RUNNING`, and a cancelled job reports as `FAILED` with `error: \"JOB_CANCELLED\"`.\n\n## 6. Limits\n\n| Limit | Value |\n|---|---|\n| Rate limit | 60 requests/minute per API key (`429 RATE_LIMIT` + `Retry-After` header past that) |\n| Max image size | 10MB per file (`person` and `garment` each) |\n| Accepted image types | JPEG, PNG, WebP — detected by file content (magic bytes), not by the filename or the `Content-Type` you send |\n| Files per request | Exactly 2 (`person` and `garment`) |\n| Max JSON body size | 30MB (only relevant to the base64 upload path in §3b — two 10MB images base64-encoded is ~27MB) |\n| Result URL expiry | Presigned `imageUrl` is valid for 900 seconds (15 minutes). If it expires, call `GET /v1/dev/jobs/:id` again for a fresh one — the underlying result doesn't disappear, only the signed link does. |\n\n## 7. Credits\n\nEach `POST /v1/dev/tryon` call costs a fixed number of credits — the same admin-configured\ntry-on price used elsewhere in the product (check `GET /v1/dev/me` for your current\nbalance). Credits are deducted atomically at job creation, before the job is queued:\n\n- If your balance is too low, the call fails with `402 INSUFFICIENT_CREDITS` and **no job\n  is created** — you're never charged for a rejected request.\n- If the job is accepted but fails to queue (`503 ENQUEUE_FAIL`) or later fails during\n  generation, the credits charged for it are **refunded automatically** — no action needed\n  on your end.\n- Successful jobs (`COMPLETED`) are not refunded.\n\nCredit top-ups are managed the same way as any other merchant credit balance — talk to\nyour account admin.\n",
+      "type": "text/plain"
+    }
+  }
+}
