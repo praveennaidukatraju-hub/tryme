@@ -1,0 +1,39 @@
+{
+  "name": "@tryme/web",
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "node --env-file=../../.env node_modules/next/dist/bin/next dev --hostname 0.0.0.0 --port 3001",
+    "build": "next build",
+    "start": "next start --port 3001",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check src/"
+  },
+  "dependencies": {
+    "@tryme/types": "workspace:*",
+    "@hookform/resolvers": "^3.9.0",
+    "@radix-ui/react-slot": "1.2.4",
+    "@sentry/nextjs": "^10.57.0",
+    "@tanstack/react-query": "^5.56.2",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "jszip": "^3.10.1",
+    "lucide-react": "^1.21.0",
+    "next": "^15.0.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.53.0",
+    "react-icons": "^5.7.0",
+    "tailwind-merge": "^2.5.2",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.5",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.13",
+    "typescript": "^5.6.3"
+  }
+}
