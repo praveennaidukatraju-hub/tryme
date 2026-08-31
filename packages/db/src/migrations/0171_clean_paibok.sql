@@ -1,0 +1,1 @@
+CREATE INDEX IF NOT EXISTS "jobs_merchant_created_idx" ON "jobs" USING btree ("merchant_id","created_at");

@@ -1,0 +1,44 @@
+{
+  "name": "@tryme/db",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./schema": {
+      "import": "./dist/schema/index.js",
+      "types": "./dist/schema/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "generate": "tsc && drizzle-kit generate",
+    "migrate": "tsx --env-file=../../.env ./src/migrate.ts",
+    "migrate:prod": "tsx --env-file=../../.env ./src/migrate.ts",
+    "verify": "tsx --env-file=../../.env ./src/verify.ts",
+    "verify:prod": "tsx --env-file=../../.env ./src/verify.ts",
+    "seed": "tsx --env-file=../../.env ./src/seed.ts",
+    "studio": "drizzle-kit studio",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@node-rs/argon2": "^2.0.2",
+    "drizzle-orm": "^0.36.0",
+    "postgres": "^3.4.4"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^10.5.0",
+    "@types/node": "^22.7.5",
+    "dotenv": "^17.4.2",
+    "drizzle-kit": "^0.28.0",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.3",
+    "vitest": "^4.1.7"
+  }
+}

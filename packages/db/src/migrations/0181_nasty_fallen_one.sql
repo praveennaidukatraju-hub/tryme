@@ -1,0 +1,1 @@
+ALTER TABLE "user_credits" ADD COLUMN "low_credit_alert_sent_at" timestamp with time zone;

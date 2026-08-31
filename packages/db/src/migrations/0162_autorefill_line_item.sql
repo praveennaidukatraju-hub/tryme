@@ -1,0 +1,1 @@
+ALTER TABLE "shopify_stores" ADD COLUMN "autorefill_line_item_id" text;

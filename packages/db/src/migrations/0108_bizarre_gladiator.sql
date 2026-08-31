@@ -1,0 +1,1 @@
+ALTER TABLE "catalogue_template_pose_workflows" ADD COLUMN "prompt_garment_phase" text;

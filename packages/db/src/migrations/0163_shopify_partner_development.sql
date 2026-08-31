@@ -1,0 +1,1 @@
+ALTER TABLE "shopify_stores" ADD COLUMN "partner_development" boolean DEFAULT false NOT NULL;
